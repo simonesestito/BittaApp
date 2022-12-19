@@ -16,7 +16,10 @@ fun AppSkeleton(title: String, content: @Composable (PaddingValues) -> Unit) {
 
     BittaAppTheme {
         Scaffold(
-            topBar = { LargeTopAppBar(title = { Text(text = title) }, scrollBehavior = scrollBehavior) },
+            topBar = { LargeTopAppBar(
+                title = { Text(text = title) },
+                scrollBehavior = scrollBehavior,
+            ) },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             content = content,
         )
