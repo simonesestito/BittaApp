@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.outlined.RunningWithErrors
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import com.bitta.app.R
 import com.bitta.app.model.Dispenser
+import com.bitta.app.model.WorkingStatus
 
 @Composable
 fun DispenserCard(dispenser: Dispenser) {
@@ -32,18 +34,32 @@ fun DispenserCard(dispenser: Dispenser) {
         Text(dispenser.address)
         Text(text = dispenser.locationDescription)
         ButtonsRow {
-            OutlinedButton(
-                modifier = Modifier.padding(end = dimensionResource(R.dimen.app_small_spacing)),
-                onClick = { /*TODO*/ },
-            ) {
-                AppButtonContent(
-                    icon = AppIcons.Flag,
-                    label = R.string.dispenser_report_issue_button_label,
-                )
+            if (dispenser.workingStatus == WorkingStatus.OK) {
+                OutlinedButton(
+                    modifier = Modifier.padding(end = dimensionResource(R.dimen.button_spacing)),
+                    onClick = { /*TODO*/ },
+                ) {
+                    AppButtonContent(
+                        icon = AppIcons.Flag,
+                        label = R.string.dispenser_report_issue_button_label,
+                    )
+                }
+            } else {
+                OutlinedButton(
+                    modifier = Modifier.padding(end = dimensionResource(R.dimen.button_spacing)),
+                    onClick = { /*TODO*/ },
+                ) {
+                    AppButtonContent(
+                        icon = AppIcons.RunningWithErrors,
+                        label = R.string.dispenser_see_issues_button_label,
+                    )
+                }
             }
+
             Button(
                 modifier = Modifier.padding(end = dimensionResource(R.dimen.app_small_spacing)),
                 onClick = { /*TODO*/ },
+                enabled = dispenser.workingStatus != WorkingStatus.NOT_WORKING,
             ) {
                 AppButtonContent(
                     icon = AppIcons.List,
