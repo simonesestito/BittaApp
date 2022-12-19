@@ -1,6 +1,5 @@
 package com.bitta.app.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -80,7 +79,7 @@ fun BittaAppTheme(
     content: @Composable () -> Unit,
 ) {
     // Dynamic color is available on Android 12+
-    val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val dynamicColor = false // FIXME Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val colors = when {
         dynamicColor && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
         dynamicColor && !darkTheme -> dynamicLightColorScheme(LocalContext.current)
@@ -97,6 +96,12 @@ fun BittaAppTheme(
 
     MaterialTheme(
         colorScheme = colors,
+        typography = MaterialTheme.typography.copy(
+            // headlineMedium is used in LargeTopAppBar expanded title
+            headlineMedium = MaterialTheme.typography.headlineMedium.let {
+                it.copy(fontSize = it.fontSize * 1.2)
+            },
+        ),
         content = content,
     )
 }

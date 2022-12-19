@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BittaApp</string>
+    <string name="dispensers_route_title">Distributori vicini</string>
+    <string name="dispensers_loading_indicator">Ricerca di distributori vicini…</string>
+    <string name="dispenser_show_products_button_label">Prodotti</string>
+    <string name="dispenser_report_issue_button_label">Segnala problema</string>
 </resources>

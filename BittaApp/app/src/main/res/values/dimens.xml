@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_small_spacing">4dp</dimen>
+    <dimen name="app_large_spacing">16dp</dimen>
+    <dimen name="app_medium_spacing">8dp</dimen>
+    <dimen name="cards_list_item_spacing">@dimen/app_medium_spacing</dimen>
+    <dimen name="loading_indicator_padding">@dimen/app_large_spacing</dimen>
+    <dimen name="card_content_padding">16dp</dimen>
+</resources>
