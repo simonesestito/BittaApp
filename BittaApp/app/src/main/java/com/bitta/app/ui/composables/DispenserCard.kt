@@ -21,7 +21,7 @@ import com.bitta.app.model.Dispenser
 import com.bitta.app.model.WorkingStatus
 
 @Composable
-fun DispenserCard(dispenser: Dispenser) {
+fun DispenserCard(dispenser: Dispenser, onDispenserSelected: (Int) -> Unit) {
     AppCard(paddingValues = appCardPaddingValues(top = 0.dp)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -58,7 +58,7 @@ fun DispenserCard(dispenser: Dispenser) {
 
             Button(
                 modifier = Modifier.padding(end = dimensionResource(R.dimen.app_small_spacing)),
-                onClick = { /*TODO*/ },
+                onClick = { onDispenserSelected(dispenser.id) },
                 enabled = dispenser.workingStatus != WorkingStatus.NOT_WORKING,
             ) {
                 AppButtonContent(

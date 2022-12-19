@@ -1,27 +1,41 @@
 package com.bitta.app.ui.composables
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.bitta.app.ui.theme.BittaAppTheme
+import androidx.compose.ui.res.stringResource
+import com.bitta.app.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppSkeleton(title: String, content: @Composable (PaddingValues) -> Unit) {
+fun AppSkeleton(
+    title: String,
+    onBackRoute: (() -> Unit)? = null,
+    content: @Composable (PaddingValues) -> Unit,
+) {
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(appBarState)
 
-    BittaAppTheme {
-        Scaffold(
-            topBar = { LargeTopAppBar(
-                title = { Text(title) },
+    Scaffold(
+        topBar = {
+            LargeTopAppBar(title = { Text(title) },
                 scrollBehavior = scrollBehavior,
-            ) },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            content = content,
-        )
-    }
+                navigationIcon = {
+                    if (onBackRoute != null) {
+                        IconButton(onClick = onBackRoute) {
+                            Icon(
+                                AppIcons.ArrowBack,
+                                contentDescription = stringResource(R.string.back_nav_icon),
+                            )
+                        }
+                    }
+                })
+        },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        content = content,
+    )
 }

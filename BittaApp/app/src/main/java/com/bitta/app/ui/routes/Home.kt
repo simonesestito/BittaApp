@@ -17,8 +17,11 @@ import com.bitta.app.ui.composables.LoadingIndicator
 import com.bitta.app.viewmodel.DispenserViewModel
 
 @Composable
-fun Home(dispenserViewModel: DispenserViewModel = viewModel()) {
-    AppSkeleton(title = stringResource(id = R.string.dispensers_route_title)) { innerPadding ->
+fun Home(
+    dispenserViewModel: DispenserViewModel = viewModel(),
+    onDispenserSelected: (Int) -> Unit,
+) {
+    AppSkeleton(title = stringResource(id = R.string.dispensers_route_title)) { padding ->
         val dispensers by dispenserViewModel.dispensers.observeAsState(listOf())
 
         if (dispensers.isEmpty()) {
@@ -27,10 +30,10 @@ fun Home(dispenserViewModel: DispenserViewModel = viewModel()) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
+                    .padding(padding)
             ) {
                 items(dispensers) {
-                    DispenserCard(it)
+                    DispenserCard(it, onDispenserSelected)
                 }
             }
         }
