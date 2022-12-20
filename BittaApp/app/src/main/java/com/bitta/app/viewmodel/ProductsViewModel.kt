@@ -37,4 +37,6 @@ class ProductsViewModel : ViewModel() {
             }
         }
     }
+
+    fun getProductById(id: Int) = DataSource.products.find { it.id == id }!!
 }

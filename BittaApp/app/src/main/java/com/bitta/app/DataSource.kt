@@ -34,6 +34,7 @@ object DataSource {
 
     val products = listOf(
         Product(
+            id = 1,
             name = "Acqua naturale",
             description = "Bottiglia di acqua naturale da 0.5l",
             price = 0.5,
@@ -41,6 +42,7 @@ object DataSource {
             nutritionalValues = listOf(),
         ),
         Product(
+            id = 2,
             name = "Acqua frizzante",
             description = "Bottiglia di acqua leggermente gassata da 0.5l",
             price = 0.5,
@@ -48,6 +50,7 @@ object DataSource {
             nutritionalValues = listOf(),
         ),
         Product(
+            id = 3,
             name = "Caffè classico",
             description = "Caffè espresso, classico",
             price = 0.5,

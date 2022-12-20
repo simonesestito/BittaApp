@@ -18,4 +18,8 @@
     <string name="products_search_not_found_description">Nessun prodotto trovato</string>
     <string name="products_search_bar_label">Cerca prodotti</string>
     <string name="search_bar_clear_label">Cancella</string>
+    <string name="product_info_description_label">Descrizione</string>
+    <string name="product_info_route_title">Informazioni prodotto</string>
+    <string name="product_info_ingredients_label">Ingredienti</string>
+    <string name="product_info_nutritional_label">Valori nutrizionali medi</string>
 </resources>
