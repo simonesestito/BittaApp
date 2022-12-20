@@ -11,4 +11,7 @@
     <string name="products_route_title">Prodotti disponibili</string>
     <string name="products_route_subtitle">Distributore #%d</string>
     <string name="back_nav_icon">Back</string>
+    <string name="dispenser_products_loading_indicator">Mi sto collegando al distributore…</string>
+    <string name="product_info_button_label">Informazioni prodotto</string>
+    <string name="product_purchase_button_label">Acquista</string>
 </resources>

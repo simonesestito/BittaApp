@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.bitta.app.BuildConfig
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
@@ -74,7 +75,7 @@ private val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
-const val FORCE_APP_THEME = false
+private val FORCE_APP_THEME = BuildConfig.DEBUG
 
 @Composable
 fun BittaAppTheme(

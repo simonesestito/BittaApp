@@ -6,18 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitta.app.DELAY_FAKE_LOADING_TIME
 import com.bitta.app.DataSource
-import com.bitta.app.model.Dispenser
+import com.bitta.app.model.Product
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class DispenserViewModel : ViewModel() {
-    private val _dispensers = MutableLiveData<List<Dispenser>>(emptyList())
-    val dispensers = _dispensers as LiveData<List<Dispenser>>
+class ProductsViewModel : ViewModel() {
+    private val _products = MutableLiveData<List<Product>>()
+    val products: LiveData<List<Product>> = _products
 
     init {
         viewModelScope.launch {
-            delay(DELAY_FAKE_LOADING_TIME * 2)
-            _dispensers.postValue(DataSource.dispensers)
+            delay(DELAY_FAKE_LOADING_TIME)
+            _products.postValue(DataSource.products)
         }
     }
 }

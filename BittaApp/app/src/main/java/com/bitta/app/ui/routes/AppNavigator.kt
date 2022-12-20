@@ -31,6 +31,8 @@ fun AppNavigator(
             ProductsSearch(
                 backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
+                onProductInfo = { /* TODO*/ },
+                onProductPurchase = { /* TODO*/ },
             )
         }
     }
