@@ -25,6 +25,7 @@ fun ReportCard(report: Report) {
             },
             leadingContent = {
                 // TODO: Round icon
+                // TODO: Center icon vertically
                 Icon(report.kind.icon, stringResource(report.kind.labelId))
             }
         )
