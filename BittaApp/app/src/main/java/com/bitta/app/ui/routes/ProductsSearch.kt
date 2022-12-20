@@ -1,17 +1,23 @@
 package com.bitta.app.ui.routes
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.outlined.TipsAndUpdates
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bitta.app.R
 import com.bitta.app.model.Product
+import com.bitta.app.ui.composables.AppIcons
 import com.bitta.app.ui.composables.AppSkeleton
 import com.bitta.app.ui.composables.LoadingIndicator
 import com.bitta.app.ui.composables.ProductCard
@@ -43,7 +49,22 @@ fun ProductsSearch(
                 }
 
                 item {
-                    // TODO: info label
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = dimensionResource(R.dimen.app_small_spacing)),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        val purchaseTipString =
+                            stringResource(R.string.products_list_payment_in_queue_icon_label)
+                        Icon(
+                            AppIcons.TipsAndUpdates,
+                            contentDescription = purchaseTipString,
+                        )
+                        Spacer(Modifier.width(dimensionResource(R.dimen.app_small_spacing)))
+                        Text(purchaseTipString, style = MaterialTheme.typography.bodyMedium)
+                    }
                 }
 
                 items(products) {
