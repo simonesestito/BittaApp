@@ -74,13 +74,15 @@ private val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
+const val FORCE_APP_THEME = false
+
 @Composable
 fun BittaAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
     // Dynamic color is available on Android 12+
-    val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val dynamicColor = !FORCE_APP_THEME && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val colors = when {
         dynamicColor && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
         dynamicColor && !darkTheme -> dynamicLightColorScheme(LocalContext.current)

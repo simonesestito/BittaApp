@@ -31,7 +31,7 @@ fun AppCard(
             .padding(paddingValues)
             .fillMaxWidth(),
     ) {
-        Column(Modifier.padding(dimensionResource(id = R.dimen.card_content_padding))) {
+        Column(Modifier.padding(dimensionResource(R.dimen.card_content_padding))) {
             content()
         }
     }

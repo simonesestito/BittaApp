@@ -1,5 +1,6 @@
 package com.bitta.app.ui.composables
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
@@ -14,6 +15,7 @@ import com.bitta.app.R
 @Composable
 fun AppSkeleton(
     title: String,
+    subtitle: String? = null,
     onBackRoute: (() -> Unit)? = null,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -22,7 +24,15 @@ fun AppSkeleton(
 
     Scaffold(
         topBar = {
-            LargeTopAppBar(title = { Text(title) },
+            LargeTopAppBar(
+                title = {
+                    Column {
+                        Text(title)
+                        if (!subtitle.isNullOrBlank()) {
+                            Text(subtitle, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                },
                 scrollBehavior = scrollBehavior,
                 navigationIcon = {
                     if (onBackRoute != null) {

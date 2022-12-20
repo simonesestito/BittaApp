@@ -8,6 +8,7 @@
     <string name="dispenser_working_status_with_reports">Segnalato</string>
     <string name="dispenser_working_status_not_working">Guasto</string>
     <string name="dispenser_see_issues_button_label">Vedi segnalazioni</string>
-    <string name="products_route_title">Prodotti disponibili in #%d</string>
+    <string name="products_route_title">Prodotti disponibili</string>
+    <string name="products_route_subtitle">Distributore #%d</string>
     <string name="back_nav_icon">Back</string>
 </resources>
