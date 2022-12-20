@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitta.app.DELAY_FAKE_LOADING_TIME
-import com.bitta.app.DataSource
+import com.bitta.app.datasource.DataSource
+import com.bitta.app.datasource.products
 import com.bitta.app.model.Product
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
