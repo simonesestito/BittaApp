@@ -12,12 +12,29 @@ import kotlinx.coroutines.launch
 
 class ProductsViewModel : ViewModel() {
     private val _products = MutableLiveData<List<Product>>()
+    private var _query = MutableLiveData("")
+
     val products: LiveData<List<Product>> = _products
+    val query: LiveData<String> = _query
 
     init {
         viewModelScope.launch {
             delay(DELAY_FAKE_LOADING_TIME)
             _products.postValue(DataSource.products)
+        }
+    }
+
+    fun search(query: String) {
+        _query.value = query
+
+        if (query.isBlank()) {
+            // No query
+            _products.value = DataSource.products
+        } else {
+            // Search products
+            _products.value = DataSource.products.filter {
+                it.name.contains(query, ignoreCase = true)
+            }
         }
     }
 }

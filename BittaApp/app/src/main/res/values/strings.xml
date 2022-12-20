@@ -15,4 +15,7 @@
     <string name="product_info_button_label">Informazioni prodotto</string>
     <string name="product_purchase_button_label">Acquista</string>
     <string name="products_list_payment_in_queue_icon_label">Puoi acquistare i prodotti mentre sei in fila!</string>
+    <string name="products_search_not_found_description">Nessun prodotto trovato</string>
+    <string name="products_search_bar_label">Cerca prodotti</string>
+    <string name="search_bar_clear_label">Cancella</string>
 </resources>
