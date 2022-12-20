@@ -13,9 +13,12 @@ private const val PRODUCTS_DISPENSER_ID_ARG = "dispenserId"
 private const val DISPENSERS = "dispensers"
 private const val PRODUCT_INFO = "productInfo"
 private const val PRODUCT_INFO_ID_ARG = "productId"
+private const val REPORTS = "reports"
+private const val REPORTS_DISPENSER_ID_ARG = "dispenserId"
 
 fun NavHostController.toProducts(dispenserId: Int) = navigate("$PRODUCTS/$dispenserId")
 fun NavHostController.toProductInfo(productId: Int) = navigate("$PRODUCT_INFO/$productId")
+fun NavHostController.toReports(dispenserId: Int) = navigate("$REPORTS/$dispenserId")
 
 @Composable
 fun AppNavigator(
@@ -24,7 +27,14 @@ fun AppNavigator(
     startDestination: String = DISPENSERS,
 ) {
     NavHost(navController, startDestination, modifier = modifier) {
-        composable(DISPENSERS) { Home(onDispenserSelected = navController::toProducts) }
+        composable(DISPENSERS) {
+            Home(
+                onDispenserSelected = navController::toProducts,
+                onNewReport = { /* TODO */ },
+                onShowReports = navController::toReports,
+            )
+        }
+
         composable(
             "$PRODUCTS/{$PRODUCTS_DISPENSER_ID_ARG}",
             arguments = listOf(navArgument(PRODUCTS_DISPENSER_ID_ARG) {
@@ -38,6 +48,7 @@ fun AppNavigator(
                 onProductPurchase = { /* TODO*/ },
             )
         }
+
         composable(
             "$PRODUCT_INFO/{$PRODUCT_INFO_ID_ARG}",
             arguments = listOf(navArgument(PRODUCT_INFO_ID_ARG) {
@@ -47,6 +58,19 @@ fun AppNavigator(
             ProductInfo(
                 backStackEntry.arguments?.getInt(PRODUCT_INFO_ID_ARG)!!,
                 onBack = navController::popBackStack,
+            )
+        }
+
+        composable(
+            "$REPORTS/{$REPORTS_DISPENSER_ID_ARG}",
+            arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
+                type = NavType.IntType
+            })
+        ) { backStackEntry ->
+            ReportsList(
+                backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
+                onBack = navController::popBackStack,
+                onNewReport = { /* TODO */ },
             )
         }
     }

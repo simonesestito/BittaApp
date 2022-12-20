@@ -20,6 +20,8 @@ import com.bitta.app.viewmodel.DispenserViewModel
 fun Home(
     dispenserViewModel: DispenserViewModel = viewModel(),
     onDispenserSelected: (Int) -> Unit,
+    onNewReport: (Int) -> Unit,
+    onShowReports: (Int) -> Unit,
 ) {
     AppSkeleton(title = stringResource(id = R.string.dispensers_route_title)) { padding ->
         val dispensers by dispenserViewModel.dispensers.observeAsState(listOf())
@@ -33,7 +35,12 @@ fun Home(
                     .padding(padding)
             ) {
                 items(dispensers) {
-                    DispenserCard(it, onDispenserSelected)
+                    DispenserCard(
+                        dispenser = it,
+                        onDispenserSelected = onDispenserSelected,
+                        onNewReport = onNewReport,
+                        onShowReports = onShowReports,
+                    )
                 }
             }
         }

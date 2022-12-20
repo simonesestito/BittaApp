@@ -22,4 +22,12 @@
     <string name="product_info_route_title">Informazioni prodotto</string>
     <string name="product_info_ingredients_label">Ingredienti</string>
     <string name="product_info_nutritional_label">Valori nutrizionali medi</string>
+    <string name="automatic_report_label">Segnalazione Automatica</string>
+    <string name="user_report_label">Segnalazione Utente</string>
+    <string name="technical_report_label">Segnalazione Tecnico</string>
+    <string name="technical_action_label">Intervento tecnico in corso…</string>
+    <string name="dispenser_reports_route_title">Segnalazioni</string>
+    <string name="dispenser_reports_loading_indicator">Caricamento delle segnalazioni…</string>
+    <string name="report_issues_list_header">Problemi</string>
+    <string name="report_user_reports_list_header">Segnalazioni</string>
 </resources>

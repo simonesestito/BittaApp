@@ -21,7 +21,12 @@ import com.bitta.app.model.Dispenser
 import com.bitta.app.model.WorkingStatus
 
 @Composable
-fun DispenserCard(dispenser: Dispenser, onDispenserSelected: (Int) -> Unit) {
+fun DispenserCard(
+    dispenser: Dispenser,
+    onDispenserSelected: (Int) -> Unit,
+    onNewReport: (Int) -> Unit,
+    onShowReports: (Int) -> Unit,
+) {
     AppCard(paddingValues = appCardPaddingValues(top = 0.dp)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -37,7 +42,7 @@ fun DispenserCard(dispenser: Dispenser, onDispenserSelected: (Int) -> Unit) {
             if (dispenser.workingStatus == WorkingStatus.OK) {
                 OutlinedButton(
                     modifier = Modifier.padding(end = dimensionResource(R.dimen.button_spacing)),
-                    onClick = { /*TODO*/ },
+                    onClick = { onNewReport(dispenser.id) },
                 ) {
                     AppButtonContent(
                         icon = AppIcons.Flag,
@@ -47,7 +52,7 @@ fun DispenserCard(dispenser: Dispenser, onDispenserSelected: (Int) -> Unit) {
             } else {
                 OutlinedButton(
                     modifier = Modifier.padding(end = dimensionResource(R.dimen.button_spacing)),
-                    onClick = { /*TODO*/ },
+                    onClick = { onShowReports(dispenser.id) },
                 ) {
                     AppButtonContent(
                         icon = AppIcons.RunningWithErrors,

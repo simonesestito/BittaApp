@@ -38,4 +38,4 @@ val DataSource.products: List<Product>
                 "Sale" to "0g",
             ),
         ),
-    )
+    ).sortedBy { it.name }

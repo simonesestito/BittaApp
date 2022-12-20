@@ -24,6 +24,7 @@ fun appCardPaddingValues(
 @Composable
 fun AppCard(
     paddingValues: PaddingValues = appCardPaddingValues(),
+    internalPadding: Dp = dimensionResource(R.dimen.card_content_padding),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     OutlinedCard(
@@ -31,7 +32,7 @@ fun AppCard(
             .padding(paddingValues)
             .fillMaxWidth(),
     ) {
-        Column(Modifier.padding(dimensionResource(R.dimen.card_content_padding))) {
+        Column(Modifier.padding(internalPadding)) {
             content()
         }
     }
