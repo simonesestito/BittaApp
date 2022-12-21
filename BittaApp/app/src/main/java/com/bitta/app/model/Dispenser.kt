@@ -13,7 +13,7 @@ data class Dispenser(
             val reports = DataSource.reportsByDispenser(id)
             return if (reports.isEmpty())
                 WorkingStatus.OK
-            else if (reports.firstOrNull { it.kind == ReportKind.TECHNICAL_ACTION } == null)
+            else if (reports.firstOrNull { it.kind == ReportKind.TECHNICAL_ACTION } != null)
                 WorkingStatus.NOT_WORKING
             else
                 WorkingStatus.WITH_REPORTS

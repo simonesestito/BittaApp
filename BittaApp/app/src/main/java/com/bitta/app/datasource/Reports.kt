@@ -40,31 +40,31 @@ private val reports = mutableListOf(
     Report(
         description = "",
         kind = ReportKind.TECHNICAL_ACTION,
-        dispenserId = 10003,
+        dispenserId = 10004,
         dateString = "Adesso",
     ),
     Report(
         description = "I prodotti non vengono erogati correttamente",
         kind = ReportKind.TECHNICAL_REPORT,
-        dispenserId = 10003,
+        dispenserId = 10004,
         dateString = "2 minuti fa",
     ),
     Report(
         description = "Resto non dato",
         kind = ReportKind.USER_REPORT,
-        dispenserId = 10003,
+        dispenserId = 10004,
         dateString = "15 minuti fa",
     ),
     Report(
         description = "Prodotto non erogato: Caffè classico",
         kind = ReportKind.USER_REPORT,
-        dispenserId = 10003,
+        dispenserId = 10004,
         dateString = "20 minuti fa",
     ),
     Report(
         description = "Resto non dato",
         kind = ReportKind.USER_REPORT,
-        dispenserId = 10003,
+        dispenserId = 10004,
         dateString = "45 minuti fa",
     ),
 )
