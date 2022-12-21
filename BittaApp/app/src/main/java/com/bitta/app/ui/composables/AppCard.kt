@@ -37,15 +37,3 @@ fun AppCard(
         }
     }
 }
-
-@Composable
-fun ButtonsRow(content: @Composable RowScope.() -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = dimensionResource(R.dimen.card_content_padding)),
-        horizontalArrangement = Arrangement.End,
-    ) {
-        content()
-    }
-}

@@ -3,12 +3,14 @@ package com.bitta.app.ui.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
 import com.bitta.app.model.Product
@@ -37,6 +39,7 @@ fun ProductCard(
 
         ButtonsRow {
             OutlinedIconButton(
+                modifier = Modifier.padding(end = dimensionResource(R.dimen.button_spacing)),
                 onClick = { onProductInfo(product) },
                 colors = IconButtonDefaults.outlinedIconButtonColors(
                     contentColor = MaterialTheme.colorScheme.primary,
