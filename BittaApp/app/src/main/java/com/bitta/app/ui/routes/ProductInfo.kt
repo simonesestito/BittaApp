@@ -46,14 +46,14 @@ fun ProductInfo(
             AppDivider()
             ListItem(headlineText = { Text(ingredientsLabel) },
                 supportingText = { Text(product.ingredients.joinToString("\n") { "- $it" }) },
-                leadingContent = { Icon(AppIcons.List, ingredientsLabel) })
+                leadingContent = { Icon(AppIcons.ReceiptLong, ingredientsLabel) })
 
             if (product.nutritionalValues.isNotEmpty()) {
                 AppDivider()
                 ListItem(
                     headlineText = { Text(nutritionalLabel) },
                     supportingText = { Text(product.nutritionalValues.joinToString("\n") { "- ${it.first}: ${it.second}" }) },
-                    leadingContent = { Icon(AppIcons.ReceiptLong, nutritionalLabel) },
+                    leadingContent = { Icon(AppIcons.List, nutritionalLabel) },
                 )
             }
         }
