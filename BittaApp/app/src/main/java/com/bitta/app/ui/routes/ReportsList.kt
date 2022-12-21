@@ -1,12 +1,11 @@
 package com.bitta.app.ui.routes
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -15,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -59,6 +59,21 @@ fun ReportsList(
     ) { padding ->
         if (loading) {
             LoadingIndicator(R.string.dispenser_reports_loading_indicator)
+        } else if (issues.size + brokenReports.size + userReports.size == 0) {
+            // No issues of any kind
+            // Empty view
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                val text = stringResource(R.string.reports_list_empty_view)
+                Icon(AppIcons.Check, contentDescription = text)
+                Text(
+                    modifier = Modifier.padding(dimensionResource(R.dimen.loading_indicator_padding)),
+                    text = text,
+                )
+            }
         } else {
             LazyColumn(
                 Modifier

@@ -19,7 +19,7 @@ import com.bitta.app.model.WorkingStatus
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DispenserWorkingIndicator(workingStatus: WorkingStatus) {
+fun DispenserWorkingIndicator(workingStatus: WorkingStatus, onStatusClick: () -> Unit) {
     val (icon: ImageVector, color: Color, @StringRes stringId: Int) = when (workingStatus) {
         WorkingStatus.OK -> Triple(
             AppIcons.Check,
@@ -50,6 +50,6 @@ fun DispenserWorkingIndicator(workingStatus: WorkingStatus) {
             containerColor = color.mix(MaterialTheme.colorScheme.surface, 0.1f),
             leadingIconContentColor = color,
         ),
-        onClick = { /*TODO*/ }
+        onClick = onStatusClick,
     )
 }

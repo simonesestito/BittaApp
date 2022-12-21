@@ -34,7 +34,9 @@ fun DispenserCard(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text("#${dispenser.id}", style = MaterialTheme.typography.titleLarge)
-            DispenserWorkingIndicator(dispenser.workingStatus)
+            DispenserWorkingIndicator(dispenser.workingStatus) {
+                onShowReports(dispenser.id)
+            }
         }
         Text(dispenser.address)
         Text(text = dispenser.locationDescription)

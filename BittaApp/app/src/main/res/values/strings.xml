@@ -31,4 +31,5 @@
     <string name="report_issues_list_header">Problemi</string>
     <string name="report_user_reports_list_header">Segnalazioni</string>
     <string name="reports_list_fab_label">Nuova segnalazione</string>
+    <string name="reports_list_empty_view">Nessuna segnalazione trovata</string>
 </resources>
