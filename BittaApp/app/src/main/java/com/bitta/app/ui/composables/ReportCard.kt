@@ -2,7 +2,6 @@ package com.bitta.app.ui.composables
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,19 +14,18 @@ import com.bitta.app.model.Report
 @Composable
 fun ReportCard(report: Report) {
     AppCard(internalPadding = 0.dp) {
-        ListItem(
-            modifier = Modifier.fillMaxHeight(),
+        ListItem(modifier = Modifier.fillMaxHeight(),
             overlineText = { Text(report.dateString) },
             headlineText = { Text(stringResource(report.kind.labelId)) },
-            supportingText = {
-                if (report.description.isNotBlank())
-                    Text(report.description)
-            },
+            supportingText = if (report.description.isNotBlank()) ({
+                Text(report.description)
+            }) else null,
             leadingContent = {
-                // TODO: Round icon
-                // TODO: Center icon vertically
-                Icon(report.kind.icon, stringResource(report.kind.labelId))
-            }
-        )
+                RoundIcon(
+                    icon = report.kind.icon,
+                    label = stringResource(report.kind.labelId),
+                    color = report.kind.color,
+                )
+            })
     }
 }

@@ -7,4 +7,5 @@
     <dimen name="loading_indicator_padding">@dimen/app_large_spacing</dimen>
     <dimen name="card_content_padding">16dp</dimen>
     <dimen name="button_spacing">@dimen/app_medium_spacing</dimen>
+    <dimen name="round_icon_container_size">42dp</dimen>
 </resources>
