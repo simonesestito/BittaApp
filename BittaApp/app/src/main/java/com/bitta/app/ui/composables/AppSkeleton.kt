@@ -17,6 +17,7 @@ fun AppSkeleton(
     title: String,
     subtitle: String? = null,
     onBackRoute: (() -> Unit)? = null,
+    floatingActionButton: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val appBarState = rememberTopAppBarState()
@@ -45,6 +46,7 @@ fun AppSkeleton(
                     }
                 })
         },
+        floatingActionButton = floatingActionButton,
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         content = content,
     )

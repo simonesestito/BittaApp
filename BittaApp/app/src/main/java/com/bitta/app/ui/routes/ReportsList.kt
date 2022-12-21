@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bitta.app.R
 import com.bitta.app.model.Report
+import com.bitta.app.ui.composables.AppIcons
 import com.bitta.app.ui.composables.AppSkeleton
 import com.bitta.app.ui.composables.LoadingIndicator
 import com.bitta.app.ui.composables.ReportCard
@@ -42,7 +46,16 @@ fun ReportsList(
         title = stringResource(R.string.dispenser_reports_route_title),
         subtitle = stringResource(R.string.products_route_subtitle, dispenserId),
         onBackRoute = onBack,
-        // TODO: Add Extended FAB for new report, only if brokenReports is empty
+        floatingActionButton = {
+            if (!loading && brokenReports.isEmpty()) {
+                val fabLabel = stringResource(R.string.reports_list_fab_label)
+                ExtendedFloatingActionButton(
+                    onClick = onNewReport,
+                    icon = { Icon(AppIcons.Flag, contentDescription = fabLabel) },
+                    text = { Text(fabLabel) },
+                )
+            }
+        }
     ) { padding ->
         if (loading) {
             LoadingIndicator(R.string.dispenser_reports_loading_indicator)
