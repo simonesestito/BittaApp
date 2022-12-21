@@ -9,7 +9,7 @@
     <string name="dispenser_working_status_not_working">Guasto</string>
     <string name="dispenser_see_issues_button_label">Vedi segnalazioni</string>
     <string name="products_route_title">Prodotti disponibili</string>
-    <string name="products_route_subtitle">Distributore #%d</string>
+    <string name="dispenser_argument_route_subtitle">Distributore #%d</string>
     <string name="back_nav_icon">Back</string>
     <string name="dispenser_products_loading_indicator">Mi sto collegando al distributore…</string>
     <string name="product_info_button_label">Informazioni prodotto</string>
@@ -32,4 +32,13 @@
     <string name="report_user_reports_list_header">Segnalazioni</string>
     <string name="reports_list_fab_label">Nuova segnalazione</string>
     <string name="reports_list_empty_view">Nessuna segnalazione trovata</string>
+    <string name="new_report_route_title">Nuova segnalazione</string>
+    <string name="user_report_kind_product_delivery_label">Erogazione Prodotto</string>
+    <string name="user_report_kind_missing_change_label">Mancato Resto</string>
+    <string name="user_report_kind_damaged_dispenser_label">Distributore Danneggiato</string>
+    <string name="user_report_kind_other_label">Altro</string>
+    <string name="user_report_kind_product_delivery_description">Il prodotto non è stato erogato correttamente</string>
+    <string name="user_report_kind_missing_change_description">Dopo l\'inserimento del denaro, il distributore non ha dato il resto</string>
+    <string name="user_report_kind_damaged_dispenser_description">Il distributore non è funzionante</string>
+    <string name="user_report_kind_other_description">Altri tipi di malfunzionamenti</string>
 </resources>

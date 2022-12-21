@@ -36,7 +36,7 @@ fun ProductsSearch(
     productsViewModel: ProductsViewModel = viewModel(),
 ) {
     val title = stringResource(R.string.products_route_title)
-    val subtitle = stringResource(R.string.products_route_subtitle, dispenserId)
+    val subtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
 
     AppSkeleton(title, subtitle, onBack) { padding ->
         val products by productsViewModel.products.observeAsState(listOf())

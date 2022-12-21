@@ -2,6 +2,7 @@ package com.bitta.app.model
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.outlined.Error
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Handyman
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.ui.graphics.Color
@@ -39,5 +40,37 @@ enum class ReportKind {
             AUTOMATIC_REPORT, USER_REPORT -> AppIcons.Warning
             TECHNICAL_REPORT -> AppIcons.Error
             TECHNICAL_ACTION -> AppIcons.Handyman
+        }
+}
+
+enum class UserReportKind {
+    PRODUCT_DELIVERY,
+    MISSING_CHANGE,
+    DAMAGED_DISPENSER,
+    OTHER;
+
+    val labelId: Int
+        @StringRes get() = when (this) {
+            PRODUCT_DELIVERY -> R.string.user_report_kind_product_delivery_label
+            MISSING_CHANGE -> R.string.user_report_kind_missing_change_label
+            DAMAGED_DISPENSER -> R.string.user_report_kind_damaged_dispenser_label
+            OTHER -> R.string.user_report_kind_other_label
+        }
+
+    val descriptionId: Int
+        @StringRes get() = when (this) {
+            PRODUCT_DELIVERY -> R.string.user_report_kind_product_delivery_description
+            MISSING_CHANGE -> R.string.user_report_kind_missing_change_description
+            DAMAGED_DISPENSER -> R.string.user_report_kind_damaged_dispenser_description
+            OTHER -> R.string.user_report_kind_other_description
+        }
+
+    val icon: ImageVector
+        get() = when (this) {
+            // TODO: User Report kind, add leading icons
+            PRODUCT_DELIVERY -> AppIcons.ErrorOutline
+            MISSING_CHANGE -> AppIcons.ErrorOutline
+            DAMAGED_DISPENSER -> AppIcons.ErrorOutline
+            OTHER -> AppIcons.ErrorOutline
         }
 }

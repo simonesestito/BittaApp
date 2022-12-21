@@ -44,7 +44,7 @@ fun ReportsList(
 
     AppSkeleton(
         title = stringResource(R.string.dispenser_reports_route_title),
-        subtitle = stringResource(R.string.products_route_subtitle, dispenserId),
+        subtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId),
         onBackRoute = onBack,
         floatingActionButton = {
             if (!loading && brokenReports.isEmpty()) {

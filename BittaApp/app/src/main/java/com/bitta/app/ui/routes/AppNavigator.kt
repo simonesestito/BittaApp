@@ -15,10 +15,12 @@ private const val PRODUCT_INFO = "productInfo"
 private const val PRODUCT_INFO_ID_ARG = "productId"
 private const val REPORTS = "reports"
 private const val REPORTS_DISPENSER_ID_ARG = "dispenserId"
+private const val NEW_REPORT = "newReport"
 
 fun NavHostController.toProducts(dispenserId: Int) = navigate("$PRODUCTS/$dispenserId")
 fun NavHostController.toProductInfo(productId: Int) = navigate("$PRODUCT_INFO/$productId")
 fun NavHostController.toReports(dispenserId: Int) = navigate("$REPORTS/$dispenserId")
+fun NavHostController.toNewReport(dispenserId: Int) = navigate("$NEW_REPORT/$dispenserId")
 
 @Composable
 fun AppNavigator(
@@ -30,7 +32,7 @@ fun AppNavigator(
         composable(DISPENSERS) {
             Home(
                 onDispenserSelected = navController::toProducts,
-                onNewReport = { /* TODO */ },
+                onNewReport = navController::toNewReport,
                 onShowReports = navController::toReports,
             )
         }
@@ -67,10 +69,24 @@ fun AppNavigator(
                 type = NavType.IntType
             })
         ) { backStackEntry ->
+            val dispenserId = backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!
             ReportsList(
+                dispenserId,
+                onBack = navController::popBackStack,
+                onNewReport = { navController.toNewReport(dispenserId) },
+            )
+        }
+
+        composable(
+            "$NEW_REPORT/{$REPORTS_DISPENSER_ID_ARG}",
+            arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
+                type = NavType.IntType
+            })
+        ) { backStackEntry ->
+            NewReport(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
-                onNewReport = { /* TODO */ },
+                onTypeSelected = { /* TODO */ },
             )
         }
     }
