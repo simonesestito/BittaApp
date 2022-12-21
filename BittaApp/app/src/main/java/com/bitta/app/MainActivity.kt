@@ -24,7 +24,8 @@ class MainActivity : ComponentActivity() {
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.surface)) {
+                        .background(MaterialTheme.colorScheme.surface)
+                ) {
                     AppNavigator(navController)
                 }
             }

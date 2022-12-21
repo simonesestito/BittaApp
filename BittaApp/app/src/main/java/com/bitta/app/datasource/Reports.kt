@@ -71,3 +71,5 @@ private val reports = mutableListOf(
 
 fun DataSource.reportsByDispenser(dispenserId: Int) =
     reports.filter { it.dispenserId == dispenserId }
+
+fun DataSource.addReport(report: Report) = reports.add(report)

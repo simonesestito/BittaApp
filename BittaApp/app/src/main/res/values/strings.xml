@@ -41,4 +41,6 @@
     <string name="user_report_kind_missing_change_description">Dopo l\'inserimento del denaro, il distributore non ha dato il resto</string>
     <string name="user_report_kind_damaged_dispenser_description">Il distributore non è funzionante</string>
     <string name="user_report_kind_other_description">Altri tipi di malfunzionamenti</string>
+    <string name="report_fab_send_label">Invia segnalazione</string>
+    <string name="products_search_error">Specificare il prodotto</string>
 </resources>
