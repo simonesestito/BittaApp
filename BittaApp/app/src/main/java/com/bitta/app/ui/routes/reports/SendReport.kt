@@ -1,17 +1,20 @@
 package com.bitta.app.ui.routes.reports
 
-import androidx.compose.foundation.layout.Box
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
@@ -20,6 +23,7 @@ import com.bitta.app.datasource.addReport
 import com.bitta.app.datasource.removeLastReport
 import com.bitta.app.model.Report
 import com.bitta.app.model.ReportKind
+import com.bitta.app.model.UserReportKind
 import com.bitta.app.ui.composables.AppIcons
 import com.bitta.app.ui.composables.AppSkeleton
 
@@ -36,7 +40,9 @@ private fun sendReport(description: String, dispenserId: Int) {
 
 @Composable
 internal fun ReportDetailsSkeleton(
+    kind: UserReportKind,
     dispenserId: Int,
+    @StringRes inputTitle: Int,
     onBack: () -> Unit,
     onReportSent: (() -> Unit) -> Unit,
     onSend: (String) -> String?,
@@ -44,9 +50,12 @@ internal fun ReportDetailsSkeleton(
 ) {
     val inputState = remember { mutableStateOf("") }
 
+    val dispenserSubtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
+    val reportKindSubtitle = stringResource(kind.labelId)
+
     AppSkeleton(
         title = stringResource(R.string.new_report_route_title),
-        subtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId),
+        subtitle = "$reportKindSubtitle - $dispenserSubtitle",
         onBackRoute = onBack,
         floatingActionButton = {
             ExtendedFloatingActionButton(
@@ -65,11 +74,16 @@ internal fun ReportDetailsSkeleton(
             )
         },
     ) { padding ->
-        Box(
+        Column(
             Modifier
                 .fillMaxSize()
                 .padding(padding)
         ) {
+            Text(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                text = stringResource(inputTitle),
+                style = MaterialTheme.typography.titleMedium,
+            )
             content(inputState)
         }
     }

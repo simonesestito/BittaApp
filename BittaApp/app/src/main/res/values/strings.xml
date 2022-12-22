@@ -46,4 +46,7 @@
     <string name="report_sent_snackbar_title">Segnalazione inviata, grazie!</string>
     <string name="report_sent_snackbar_action_label">Annulla</string>
     <string name="report_cancelled_snackbar_title">Segnalazione annullata</string>
+    <string name="report_product_input_title">Che prodotto ha dato problemi?</string>
+    <string name="optional_input_supporting_text">Facoltativo</string>
+    <string name="report_other_input_label">Note</string>
 </resources>

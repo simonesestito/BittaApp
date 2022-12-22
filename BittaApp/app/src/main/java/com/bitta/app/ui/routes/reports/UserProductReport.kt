@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
+import com.bitta.app.R
 import com.bitta.app.datasource.DataSource
 import com.bitta.app.datasource.products
 import com.bitta.app.model.UserReportKind
@@ -20,6 +21,8 @@ fun UserProductReport(
     val errorState = remember { mutableStateOf(false) }
 
     ReportDetailsSkeleton(
+        kind = UserReportKind.PRODUCT_DELIVERY,
+        inputTitle = R.string.report_product_input_title,
         dispenserId = dispenserId,
         onBack = onBack,
         onReportSent = onReportSent,

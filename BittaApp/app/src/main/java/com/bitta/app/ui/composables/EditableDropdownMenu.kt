@@ -2,8 +2,6 @@ package com.bitta.app.ui.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -35,7 +33,7 @@ fun EditableDropdownMenu(
         expanded = expanded,
         onExpandedChange = {},
     ) {
-        OutlinedTextField(
+        DeletableTextField(
             modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth(),
@@ -49,18 +47,7 @@ fun EditableDropdownMenu(
                     AppIcons.Search, stringResource(R.string.products_search_bar_label)
                 )
             },
-            trailingIcon = {
-                if (query.isNotBlank()) {
-                    IconButton(onClick = { query = "" }) {
-                        Icon(
-                            AppIcons.Close,
-                            stringResource(R.string.search_bar_clear_label),
-                        )
-                    }
-                }
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            imeAction = ImeAction.Search,
         )
 
         // filter options based on text field value

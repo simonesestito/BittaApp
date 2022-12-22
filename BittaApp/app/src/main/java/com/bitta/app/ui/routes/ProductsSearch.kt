@@ -3,8 +3,6 @@ package com.bitta.app.ui.routes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.*
@@ -20,10 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bitta.app.R
 import com.bitta.app.model.Product
-import com.bitta.app.ui.composables.AppIcons
-import com.bitta.app.ui.composables.AppSkeleton
-import com.bitta.app.ui.composables.LoadingIndicator
-import com.bitta.app.ui.composables.ProductCard
+import com.bitta.app.ui.composables.*
 import com.bitta.app.viewmodel.ProductsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,7 +65,7 @@ fun ProductsSearch(
                 }
 
                 item {
-                    OutlinedTextField(
+                    DeletableTextField(
                         modifier = Modifier
                             .padding(
                                 vertical = dimensionResource(R.dimen.app_medium_spacing),
@@ -85,18 +80,7 @@ fun ProductsSearch(
                                 AppIcons.Search, stringResource(R.string.products_search_bar_label)
                             )
                         },
-                        trailingIcon = {
-                            if (query.isNotBlank()) {
-                                IconButton(onClick = { productsViewModel.search("") }) {
-                                    Icon(
-                                        AppIcons.Close,
-                                        stringResource(R.string.search_bar_clear_label),
-                                    )
-                                }
-                            }
-                        },
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        imeAction = ImeAction.Search,
                     )
                 }
 
