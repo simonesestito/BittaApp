@@ -17,16 +17,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import com.bitta.app.R
-import com.bitta.app.model.Dispenser
+import com.bitta.app.model.DispenserWithStatus
 import com.bitta.app.model.WorkingStatus
 
 @Composable
 fun DispenserCard(
-    dispenser: Dispenser,
+    dispenserWithStatus: DispenserWithStatus,
     onDispenserSelected: (Int) -> Unit,
     onNewReport: (Int) -> Unit,
     onShowReports: (Int) -> Unit,
 ) {
+    val (dispenser, workingStatus) = dispenserWithStatus
     AppCard(paddingValues = appCardPaddingValues(top = 0.dp)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -34,14 +35,14 @@ fun DispenserCard(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text("#${dispenser.id}", style = MaterialTheme.typography.titleLarge)
-            DispenserWorkingIndicator(dispenser.workingStatus) {
+            DispenserWorkingIndicator(workingStatus) {
                 onShowReports(dispenser.id)
             }
         }
         Text(dispenser.address)
         Text(text = dispenser.locationDescription)
         ButtonsRow {
-            if (dispenser.workingStatus == WorkingStatus.OK) {
+            if (workingStatus == WorkingStatus.OK) {
                 OutlinedButton(
                     modifier = Modifier.padding(end = dimensionResource(R.dimen.button_spacing)),
                     onClick = { onNewReport(dispenser.id) },
@@ -66,7 +67,7 @@ fun DispenserCard(
             Button(
                 modifier = Modifier.padding(end = dimensionResource(R.dimen.app_small_spacing)),
                 onClick = { onDispenserSelected(dispenser.id) },
-                enabled = dispenser.workingStatus != WorkingStatus.NOT_WORKING,
+                enabled = workingStatus != WorkingStatus.NOT_WORKING,
             ) {
                 AppButtonContent(
                     icon = AppIcons.List,
