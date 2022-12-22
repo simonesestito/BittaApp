@@ -1,10 +1,7 @@
 package com.bitta.app.model
 
 import androidx.annotation.StringRes
-import androidx.compose.material.icons.outlined.Error
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.Handyman
-import androidx.compose.material.icons.outlined.Warning
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.bitta.app.R
@@ -67,10 +64,9 @@ enum class UserReportKind {
 
     val icon: ImageVector
         get() = when (this) {
-            // TODO: User Report kind, add leading icons
-            PRODUCT_DELIVERY -> AppIcons.ErrorOutline
-            MISSING_CHANGE -> AppIcons.ErrorOutline
-            DAMAGED_DISPENSER -> AppIcons.ErrorOutline
-            OTHER -> AppIcons.ErrorOutline
+            PRODUCT_DELIVERY -> AppIcons.ProductionQuantityLimits
+            MISSING_CHANGE -> AppIcons.Toll
+            DAMAGED_DISPENSER -> AppIcons.Dangerous
+            OTHER -> AppIcons.MoreHoriz
         }
 }
