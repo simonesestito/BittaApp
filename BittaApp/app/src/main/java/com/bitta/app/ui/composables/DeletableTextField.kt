@@ -15,7 +15,7 @@ import com.bitta.app.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeletableTextField(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean = false,

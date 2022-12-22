@@ -1,10 +1,7 @@
 package com.bitta.app.ui.routes.reports
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -16,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
 import com.bitta.app.datasource.DataSource
@@ -46,10 +44,9 @@ internal fun ReportDetailsSkeleton(
     onBack: () -> Unit,
     onReportSent: (() -> Unit) -> Unit,
     onSend: (String) -> String?,
-    content: @Composable (MutableState<String>) -> Unit,
+    inputState: MutableState<String> = remember { mutableStateOf("") },
+    content: @Composable ColumnScope.(MutableState<String>) -> Unit,
 ) {
-    val inputState = remember { mutableStateOf("") }
-
     val dispenserSubtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
     val reportKindSubtitle = stringResource(kind.labelId)
 
@@ -84,6 +81,7 @@ internal fun ReportDetailsSkeleton(
                 text = stringResource(inputTitle),
                 style = MaterialTheme.typography.titleMedium,
             )
+            Spacer(Modifier.height(dimensionResource(R.dimen.app_small_spacing)))
             content(inputState)
         }
     }

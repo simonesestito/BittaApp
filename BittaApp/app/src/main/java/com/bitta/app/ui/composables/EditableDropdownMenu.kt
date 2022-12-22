@@ -26,8 +26,8 @@ fun EditableDropdownMenu(
     ExposedDropdownMenuBox(
         modifier = Modifier
             .padding(
-                vertical = dimensionResource(R.dimen.app_medium_spacing),
-                horizontal = dimensionResource(R.dimen.app_large_spacing),
+                vertical = dimensionResource(R.dimen.input_vertical_padding),
+                horizontal = dimensionResource(R.dimen.input_horizontal_padding),
             )
             .fillMaxWidth(),
         expanded = expanded,

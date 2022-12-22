@@ -1,6 +1,5 @@
 package com.bitta.app.ui.routes
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,6 +10,9 @@ import androidx.navigation.navArgument
 import com.bitta.app.R
 import com.bitta.app.SnackbarInfo
 import com.bitta.app.model.UserReportKind
+import com.bitta.app.ui.routes.reports.UserChangeReport
+import com.bitta.app.ui.routes.reports.UserDamageReport
+import com.bitta.app.ui.routes.reports.UserOtherReport
 import com.bitta.app.ui.routes.reports.UserProductReport
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -126,12 +128,10 @@ fun AppNavigator(
         }
 
         val onReportSent: (() -> Unit) -> Unit = { cancel ->
-            Log.d("REPORT", "onReportSent")
             navController.popBackStack(
                 DISPENSERS, inclusive = false
             )
             GlobalScope.launch {
-                Log.d("REPORT", "sending to channel")
                 snackbarHomeChannel.send(
                     SnackbarInfo(
                         message = R.string.report_sent_snackbar_title,
@@ -142,7 +142,6 @@ fun AppNavigator(
                         },
                     )
                 )
-                Log.d("REPORT", "sent to channel")
             }
         }
 
@@ -165,8 +164,7 @@ fun AppNavigator(
                 type = NavType.IntType
             })
         ) { backStackEntry ->
-            // TODO
-            UserProductReport(
+            UserDamageReport(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
                 onReportSent = onReportSent,
@@ -179,8 +177,7 @@ fun AppNavigator(
                 type = NavType.IntType
             })
         ) { backStackEntry ->
-            // TODO
-            UserProductReport(
+            UserChangeReport(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
                 onReportSent = onReportSent,
@@ -193,8 +190,7 @@ fun AppNavigator(
                 type = NavType.IntType
             })
         ) { backStackEntry ->
-            // TODO
-            UserProductReport(
+            UserOtherReport(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
                 onReportSent = onReportSent,

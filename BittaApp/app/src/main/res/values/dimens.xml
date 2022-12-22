@@ -8,4 +8,6 @@
     <dimen name="card_content_padding">16dp</dimen>
     <dimen name="button_spacing">@dimen/app_medium_spacing</dimen>
     <dimen name="round_icon_container_size">42dp</dimen>
+    <dimen name="input_vertical_padding">@dimen/app_medium_spacing</dimen>
+    <dimen name="input_horizontal_padding">@dimen/app_large_spacing</dimen>
 </resources>

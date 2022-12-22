@@ -49,4 +49,8 @@
     <string name="report_product_input_title">Che prodotto ha dato problemi?</string>
     <string name="optional_input_supporting_text">Facoltativo</string>
     <string name="report_other_input_label">Note</string>
+    <string name="report_other_notes_input_title">Dicci di più se hai altro da aggiungere</string>
+    <string name="report_other_reason_input_label">Problema</string>
+    <string name="input_required_error_label">Campo obbligatorio</string>
+    <string name="report_other_reason_input_title">Descrivi il problema che hai avuto</string>
 </resources>
