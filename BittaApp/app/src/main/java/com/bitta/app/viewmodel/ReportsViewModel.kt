@@ -1,14 +1,14 @@
 package com.bitta.app.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.bitta.app.DELAY_FAKE_LOADING_TIME
 import com.bitta.app.datasource.DataSource
 import com.bitta.app.datasource.reports
 import com.bitta.app.filter
 import com.bitta.app.model.Report
 import com.bitta.app.model.ReportKind
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ReportsViewModel : ViewModel() {
     private val _loadingStatus = MutableLiveData(true)
@@ -37,13 +37,19 @@ class ReportsViewModel : ViewModel() {
 
     private fun onReportsChange() {
         val dispenserId = _dispenserId.value
-        val reports = _reports.value
+        val reports = DataSource.reports.value
 
         _loadingStatus.value = true
 
         if (dispenserId != null && reports != null) {
-            _reports.value = reports.filter { it.dispenserId == dispenserId }
-            _loadingStatus.value = false
+            viewModelScope.launch {
+                delay(DELAY_FAKE_LOADING_TIME)
+                if (_loadingStatus.value == true) {
+                    // Still loading, update value
+                    _reports.value = reports.filter { it.dispenserId == dispenserId }
+                    _loadingStatus.value = false
+                }
+            }
         }
     }
 }
