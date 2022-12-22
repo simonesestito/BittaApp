@@ -1,5 +1,6 @@
 package com.bitta.app
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -22,3 +23,9 @@ inline fun <T> LiveData<List<T>>.filter(crossinline filter: (T) -> Boolean): Liv
         }
     }
 }
+
+data class SnackbarInfo(
+    @StringRes val message: Int,
+    @StringRes val actionLabel: Int? = null,
+    val onAction: (() -> Unit)? = null,
+)

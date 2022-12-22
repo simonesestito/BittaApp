@@ -13,7 +13,7 @@ import com.bitta.app.ui.composables.EditableDropdownMenu
 fun UserProductReport(
     dispenserId: Int,
     onBack: () -> Unit,
-    onReportSent: () -> Unit,
+    onReportSent: (() -> Unit) -> Unit,
 ) {
     val productReportLabel = stringResource(UserReportKind.PRODUCT_DELIVERY.descriptionId)
     val products = DataSource.products

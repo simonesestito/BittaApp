@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
 import com.bitta.app.datasource.DataSource
 import com.bitta.app.datasource.addReport
+import com.bitta.app.datasource.removeLastReport
 import com.bitta.app.model.Report
 import com.bitta.app.model.ReportKind
 import com.bitta.app.ui.composables.AppIcons
@@ -37,7 +38,7 @@ private fun sendReport(description: String, dispenserId: Int) {
 internal fun ReportDetailsSkeleton(
     dispenserId: Int,
     onBack: () -> Unit,
-    onReportSent: () -> Unit,
+    onReportSent: (() -> Unit) -> Unit,
     onSend: (String) -> String?,
     content: @Composable (MutableState<String>) -> Unit,
 ) {
@@ -56,7 +57,10 @@ internal fun ReportDetailsSkeleton(
                     val description =
                         onSend(inputState.value) ?: return@ExtendedFloatingActionButton
                     sendReport(description, dispenserId)
-                    onReportSent()
+                    onReportSent {
+                        // Cancel action
+                        DataSource.removeLastReport()
+                    }
                 },
             )
         },

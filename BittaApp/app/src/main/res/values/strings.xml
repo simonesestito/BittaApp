@@ -43,4 +43,7 @@
     <string name="user_report_kind_other_description">Altri tipi di malfunzionamenti</string>
     <string name="report_fab_send_label">Invia segnalazione</string>
     <string name="products_search_error">Specificare il prodotto</string>
+    <string name="report_sent_snackbar_title">Segnalazione inviata, grazie!</string>
+    <string name="report_sent_snackbar_action_label">Annulla</string>
+    <string name="report_cancelled_snackbar_title">Segnalazione annullata</string>
 </resources>

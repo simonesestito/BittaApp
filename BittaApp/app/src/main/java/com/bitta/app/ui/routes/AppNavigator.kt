@@ -1,5 +1,6 @@
 package com.bitta.app.ui.routes
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -7,8 +8,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.bitta.app.R
+import com.bitta.app.SnackbarInfo
 import com.bitta.app.model.UserReportKind
 import com.bitta.app.ui.routes.reports.UserProductReport
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 
 private const val PRODUCTS = "products"
 private const val PRODUCTS_DISPENSER_ID_ARG = "dispenserId"
@@ -37,18 +44,22 @@ fun NavHostController.toNewReportDetails(dispenserId: Int, kind: UserReportKind)
     navigate("$route/$dispenserId")
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun AppNavigator(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     startDestination: String = DISPENSERS,
 ) {
+    val snackbarHomeChannel = Channel<SnackbarInfo>(capacity = 2)
+
     NavHost(navController, startDestination, modifier = modifier) {
         composable(DISPENSERS) {
             Home(
                 onDispenserSelected = navController::toProducts,
                 onNewReport = navController::toNewReport,
                 onShowReports = navController::toReports,
+                snackbarChannel = snackbarHomeChannel,
             )
         }
 
@@ -106,6 +117,35 @@ fun AppNavigator(
             )
         }
 
+        val onReportCancelled: () -> Unit = {
+            GlobalScope.launch {
+                snackbarHomeChannel.send(
+                    SnackbarInfo(R.string.report_cancelled_snackbar_title)
+                )
+            }
+        }
+
+        val onReportSent: (() -> Unit) -> Unit = { cancel ->
+            Log.d("REPORT", "onReportSent")
+            navController.popBackStack(
+                DISPENSERS, inclusive = false
+            )
+            GlobalScope.launch {
+                Log.d("REPORT", "sending to channel")
+                snackbarHomeChannel.send(
+                    SnackbarInfo(
+                        message = R.string.report_sent_snackbar_title,
+                        actionLabel = R.string.report_sent_snackbar_action_label,
+                        onAction = {
+                            cancel()
+                            onReportCancelled()
+                        },
+                    )
+                )
+                Log.d("REPORT", "sent to channel")
+            }
+        }
+
         composable(
             "$NEW_REPORT_PRODUCT_DETAILS/{$REPORTS_DISPENSER_ID_ARG}",
             arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
@@ -115,12 +155,7 @@ fun AppNavigator(
             UserProductReport(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
-                onReportSent = {
-                    navController.popBackStack(
-                        DISPENSERS,
-                        inclusive = false
-                    ) /* TODO: Show snackbar */
-                },
+                onReportSent = onReportSent,
             )
         }
 
@@ -134,12 +169,7 @@ fun AppNavigator(
             UserProductReport(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
-                onReportSent = {
-                    navController.popBackStack(
-                        DISPENSERS,
-                        inclusive = false
-                    ) /* TODO: Show snackbar */
-                },
+                onReportSent = onReportSent,
             )
         }
 
@@ -153,12 +183,7 @@ fun AppNavigator(
             UserProductReport(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
-                onReportSent = {
-                    navController.popBackStack(
-                        DISPENSERS,
-                        inclusive = false
-                    ) /* TODO: Show snackbar */
-                },
+                onReportSent = onReportSent,
             )
         }
 
@@ -172,12 +197,7 @@ fun AppNavigator(
             UserProductReport(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
-                onReportSent = {
-                    navController.popBackStack(
-                        DISPENSERS,
-                        inclusive = false
-                    ) /* TODO: Show snackbar */
-                },
+                onReportSent = onReportSent,
             )
         }
     }
