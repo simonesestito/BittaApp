@@ -15,10 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
 import com.bitta.app.ui.composables.*
+import com.bitta.app.utils.getPreferences
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import kotlinx.coroutines.launch
 
@@ -26,13 +28,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun PostPurchaseDelivery(
     dispenserId: Int,
-    onCancelPurchase: () -> Unit,
+    onPurchaseCancelled: () -> Unit,
     onProductDelivered: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
-    // TODO: Even closing and re-opening the app must persist this screen
+    // Even closing and re-opening the app must persist this screen
+    val preferences = LocalContext.current.getPreferences()
 
     BackHandler {
         coroutineScope.launch {
@@ -40,12 +43,17 @@ fun PostPurchaseDelivery(
         }
     }
 
-    ModalBottomSheet(state = bottomSheetState,
+    ModalBottomSheet(
+        state = bottomSheetState,
         title = stringResource(R.string.post_purchase_cancel_confirmation_title),
         description = stringResource(R.string.post_purchase_cancel_confirmation_description),
         cancelButton = { close ->
             Button(
-                onClick = { close(); onCancelPurchase(); }, colors = ButtonDefaults.buttonColors(
+                onClick = {
+                    close()
+                    onPurchaseCancelled()
+                    preferences.ongoingPurchaseDispenserId = null
+                }, colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.error,
                 )
             ) {
