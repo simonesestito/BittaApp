@@ -1,7 +1,11 @@
 package com.bitta.app.ui.routes
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -14,8 +18,7 @@ import com.bitta.app.ui.routes.reports.UserDamageReport
 import com.bitta.app.ui.routes.reports.UserOtherReport
 import com.bitta.app.ui.routes.reports.UserProductReport
 import com.bitta.app.utils.SnackbarInfo
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import com.bitta.app.utils.getPreferences
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
@@ -50,14 +53,25 @@ fun NavHostController.toNewReportDetails(dispenserId: Int, kind: UserReportKind)
 fun NavHostController.toPostPurchaseDelivery(dispenserId: Int) =
     navigate("$POST_PURCHASE_DELIVERY/$dispenserId")
 
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun AppNavigator(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     startDestination: String = DISPENSERS,
 ) {
-    val snackbarHomeChannel = Channel<SnackbarInfo>(capacity = 2)
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHomeChannel = Channel<SnackbarInfo>(capacity = 1)
+    val productsListSnackbarChannel = Channel<String>(capacity = 1)
+    val preferences = LocalContext.current.getPreferences()
+
+    // Reload last purchase, if not yet completed.
+    SideEffect {
+        val ongoingPurchaseDispenserId = preferences.ongoingPurchaseDispenserId
+        if (ongoingPurchaseDispenserId != null) {
+            // There is a purchase still not completed.
+            navController.toPostPurchaseDelivery(ongoingPurchaseDispenserId)
+        }
+    }
 
     NavHost(navController, startDestination, modifier = modifier) {
         composable(DISPENSERS) {
@@ -78,9 +92,10 @@ fun AppNavigator(
             val dispenserId = backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!
             ProductsSearch(
                 dispenserId,
+                snackbarChannel = productsListSnackbarChannel,
                 onBack = navController::popBackStack,
                 onProductInfo = { navController.toProductInfo(it.id) },
-                onProductPurchase = { navController.toPostPurchaseDelivery(dispenserId) },
+                onProductPurchased = { navController.toPostPurchaseDelivery(dispenserId) },
             )
         }
 
@@ -125,7 +140,7 @@ fun AppNavigator(
         }
 
         val onReportCancelled: () -> Unit = {
-            GlobalScope.launch {
+            coroutineScope.launch {
                 snackbarHomeChannel.send(
                     SnackbarInfo(R.string.report_cancelled_snackbar_title)
                 )
@@ -136,7 +151,7 @@ fun AppNavigator(
             navController.popBackStack(
                 DISPENSERS, inclusive = false
             )
-            GlobalScope.launch {
+            coroutineScope.launch {
                 snackbarHomeChannel.send(
                     SnackbarInfo(
                         message = R.string.report_sent_snackbar_title,
@@ -208,9 +223,13 @@ fun AppNavigator(
                 type = NavType.IntType
             })
         ) { backStackEntry ->
+            val purchaseCancelledString = stringResource(R.string.purchase_cancelled_message)
             PostPurchaseDelivery(
                 backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!,
-                onCancelPurchase = { navController.popBackStack() },
+                onPurchaseCancelled = {
+                    navController.popBackStack()
+                    coroutineScope.launch { productsListSnackbarChannel.send(purchaseCancelledString) }
+                },
                 onProductDelivered = { /*TODO*/ },
             )
         }

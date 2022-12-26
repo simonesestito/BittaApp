@@ -67,4 +67,5 @@
     <string name="product_purchase_cancel_delivery_button">Annulla acquisto</string>
     <string name="post_purchase_banner_title">Acquisto confermato</string>
     <string name="post_purchase_banner_description">Appena è il tuo turno al distributore, scansiona il codice QR che trovi affisso per ricevere i tuoi prodotti</string>
+    <string name="purchase_cancelled_message">Acquisto annullato e rimborsato</string>
 </resources>

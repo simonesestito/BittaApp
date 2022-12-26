@@ -9,6 +9,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -19,28 +21,58 @@ import com.bitta.app.model.Product
 import com.bitta.app.model.ReportedProduct
 import com.bitta.app.ui.composables.*
 import com.bitta.app.viewmodel.ProductsViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 typealias OnShowBottomSheetProduct = (ReportedProduct) -> Unit
 
 @Composable
 fun ProductsSearch(
     dispenserId: Int,
+    snackbarChannel: Channel<String>,
     onBack: () -> Unit,
-    onProductPurchase: (Product) -> Unit,
+    onProductPurchased: () -> Unit,
     onProductInfo: (Product) -> Unit,
     productsViewModel: ProductsViewModel = viewModel(),
 ) {
     val title = stringResource(R.string.products_route_title)
     val subtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
+    val coroutineScope = rememberCoroutineScope()
 
-    ProductsBottomSheetWrapper(/* TODO: Show Google Pay */ onProductPurchase) { onShowReport ->
-        AppSkeleton(title, subtitle, onBack) { padding ->
+    DisposableEffect(LocalLifecycleOwner.current) {
+        productsViewModel.onPurchaseCompleted = { error ->
+            if (error == null) {
+                onProductPurchased()
+            } else {
+                // Show error snackbar
+                coroutineScope.launch {
+                    snackbarChannel.send(error)
+                }
+            }
+        }
+        onDispose {
+            productsViewModel.onPurchaseCompleted = null
+        }
+    }
+
+    ProductsBottomSheetWrapper { onShowReport ->
+        AppSkeleton(title, subtitle, onBack) { padding, snackbarHost ->
             val loading by productsViewModel.loading.observeAsState(true)
             val products by productsViewModel.products.observeAsState(listOf())
             val query by productsViewModel.query.observeAsState("")
 
-            // Set new dispenser ID
-            productsViewModel.search(dispenserId, "")
+            LaunchedEffect(snackbarHost) {
+                while (isActive) {
+                    val snackbarText = snackbarChannel.receive()
+                    snackbarHost.showSnackbar(snackbarText)
+                }
+            }
+
+            SideEffect {
+                // Set new dispenser ID
+                productsViewModel.search(dispenserId, "")
+            }
 
             if (loading) {
                 LoadingIndicator(textId = R.string.dispenser_products_loading_indicator)
@@ -50,8 +82,6 @@ fun ProductsSearch(
                     query = query,
                     products = products,
                     onProductInfo = onProductInfo,
-                    onProductPurchase = onProductPurchase,
-                    productsViewModel = productsViewModel,
                     dispenserId = dispenserId,
                     onShowReport = onShowReport,
                 )
@@ -66,9 +96,8 @@ private fun ProductsColumn(
     query: String,
     products: List<ReportedProduct>,
     onProductInfo: (Product) -> Unit,
-    onProductPurchase: (Product) -> Unit,
     onShowReport: OnShowBottomSheetProduct,
-    productsViewModel: ProductsViewModel,
+    productsViewModel: ProductsViewModel = viewModel(),
     dispenserId: Int,
 ) {
     LazyColumn(
@@ -118,9 +147,10 @@ private fun ProductsColumn(
         }
 
         items(products) {
+            val context = LocalContext.current
             ProductCard(
                 it,
-                onProductPurchase = onProductPurchase,
+                onProductPurchase = { product -> productsViewModel.buyProduct(product, context) },
                 onProductInfo = onProductInfo,
                 onShowReportWarning = onShowReport,
             )
@@ -143,10 +173,11 @@ private fun ProductsColumn(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ProductsBottomSheetWrapper(
-    onProductPurchase: (Product) -> Unit,
+    productsViewModel: ProductsViewModel = viewModel(),
     content: @Composable (OnShowBottomSheetProduct) -> Unit,
 ) {
     var product by remember { mutableStateOf<ReportedProduct?>(null) }
+    val context = LocalContext.current
 
     ModalBottomSheet(
         title = stringResource(R.string.product_report_warning_title),
@@ -162,7 +193,10 @@ private fun ProductsBottomSheetWrapper(
                 AppButtonContent(AppIcons.Close, R.string.product_purchase_cancel_button)
             }
             Spacer(Modifier.width(dimensionResource(R.dimen.button_spacing)))
-            Button(onClick = { onClose(); onProductPurchase(product?.product!!) }) {
+            Button(onClick = {
+                onClose()
+                productsViewModel.buyProduct(product?.product!!, context)
+            }) {
                 AppButtonContent(AppIcons.Payments, R.string.product_do_purchase_with_report_button)
             }
         },
