@@ -10,4 +10,5 @@
     <dimen name="round_icon_container_size">42dp</dimen>
     <dimen name="input_vertical_padding">@dimen/app_medium_spacing</dimen>
     <dimen name="input_horizontal_padding">@dimen/app_large_spacing</dimen>
+    <dimen name="splash_screen_icon_size">54dp</dimen>
 </resources>

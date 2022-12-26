@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.BittaApp" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.BittaApp.LaunchScreen" parent="Theme.SplashScreen">
+        <!-- Use windowSplashScreenAnimatedIcon to add either a drawable or an
+             animated drawable. One of these is required. -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/app_logo_transparent</item>
+
+        <!-- Set the theme of the Activity that directly follows your splash screen. -->
+        <!-- Required -->
+        <item name="postSplashScreenTheme">@style/Theme.BittaApp</item>
+    </style>
 </resources>
