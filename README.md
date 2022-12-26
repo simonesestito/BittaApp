@@ -5,6 +5,12 @@ Built using **Jetpack Compose and Material 3**
 
 This project was built for the `Human Computer Interaction` exam.
 
+[<img src=".github/assets/apk-badge.svg" height="64">](#)
+![Light theme app screenshots](.github/assets/light-theme-screenshots.jpg)
+![Dark theme app screenshots](.github/assets/dark-theme-screenshots.jpg)
+
+## Work material
+
 All project material includes:
 - research
 - camera studies
