@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.bitta.app.R
 import com.bitta.app.ui.composables.AppIcons
+import com.bitta.app.ui.theme.Warning
 
 open class Report(
     val description: String,
@@ -40,7 +41,7 @@ enum class ReportKind {
     val color: Color
         get() = when (this) {
             AUTOMATIC_REPORT -> Color.DarkGray
-            USER_REPORT -> Color(0xFFA38903)
+            USER_REPORT -> Color.Warning
             TECHNICAL_REPORT, TECHNICAL_ACTION -> Color.Red
         }
 

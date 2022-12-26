@@ -8,8 +8,7 @@ import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,8 +19,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bitta.app.R
 import com.bitta.app.model.Product
+import com.bitta.app.model.ReportedProduct
 import com.bitta.app.ui.composables.*
 import com.bitta.app.viewmodel.ProductsViewModel
+
+typealias OnShowBottomSheetProduct = (ReportedProduct) -> Unit
 
 @Composable
 fun ProductsSearch(
@@ -34,83 +36,132 @@ fun ProductsSearch(
     val title = stringResource(R.string.products_route_title)
     val subtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
 
-    AppSkeleton(title, subtitle, onBack) { padding ->
-        val loading by productsViewModel.loading.observeAsState(true)
-        val products by productsViewModel.products.observeAsState(listOf())
-        val query by productsViewModel.query.observeAsState("")
+    ProductsBottomSheetWrapper(onProductPurchase) { onShowReport ->
+        AppSkeleton(title, subtitle, onBack) { padding ->
+            val loading by productsViewModel.loading.observeAsState(true)
+            val products by productsViewModel.products.observeAsState(listOf())
+            val query by productsViewModel.query.observeAsState("")
 
-        // Set new dispenser ID
-        productsViewModel.search(dispenserId, "")
+            // Set new dispenser ID
+            productsViewModel.search(dispenserId, "")
 
-        if (loading) {
-            LoadingIndicator(textId = R.string.dispenser_products_loading_indicator)
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-            ) {
-                item {
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = dimensionResource(R.dimen.app_small_spacing)),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        val purchaseTipString =
-                            stringResource(R.string.products_list_payment_in_queue_icon_label)
-                        Icon(
-                            AppIcons.TipsAndUpdates,
-                            contentDescription = purchaseTipString,
-                        )
-                        Spacer(Modifier.width(dimensionResource(R.dimen.app_small_spacing)))
-                        Text(purchaseTipString, style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
-
-                item {
-                    DeletableTextField(
-                        modifier = Modifier
-                            .padding(
-                                vertical = dimensionResource(R.dimen.app_medium_spacing),
-                                horizontal = dimensionResource(R.dimen.app_large_spacing),
-                            )
-                            .fillMaxWidth(),
-                        value = query,
-                        onValueChange = { query ->
-                            productsViewModel.search(dispenserId, query)
-                        },
-                        label = { Text(stringResource(R.string.products_search_bar_label)) },
-                        leadingIcon = {
-                            Icon(
-                                AppIcons.Search, stringResource(R.string.products_search_bar_label)
-                            )
-                        },
-                        imeAction = ImeAction.Search,
-                    )
-                }
-
-                items(products) {
-                    ProductCard(
-                        it,
-                        onProductPurchase = onProductPurchase,
-                        onProductInfo = onProductInfo,
-                    )
-                }
-
-                item {
-                    if (products.isEmpty()) {
-                        Text(
-                            stringResource(R.string.products_search_not_found_description),
-                            modifier = Modifier
-                                .padding(vertical = dimensionResource(R.dimen.app_large_spacing))
-                                .fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                }
+            if (loading) {
+                LoadingIndicator(textId = R.string.dispenser_products_loading_indicator)
+            } else {
+                ProductsColumn(
+                    padding = padding,
+                    query = query,
+                    products = products,
+                    onProductInfo = onProductInfo,
+                    onProductPurchase = onProductPurchase,
+                    productsViewModel = productsViewModel,
+                    dispenserId = dispenserId,
+                    onShowReport = onShowReport,
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun ProductsColumn(
+    padding: PaddingValues,
+    query: String,
+    products: List<ReportedProduct>,
+    onProductInfo: (Product) -> Unit,
+    onProductPurchase: (Product) -> Unit,
+    onShowReport: OnShowBottomSheetProduct,
+    productsViewModel: ProductsViewModel,
+    dispenserId: Int,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+    ) {
+        item {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = dimensionResource(R.dimen.app_small_spacing)),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                val purchaseTipString =
+                    stringResource(R.string.products_list_payment_in_queue_icon_label)
+                Icon(
+                    AppIcons.TipsAndUpdates,
+                    contentDescription = purchaseTipString,
+                )
+                Spacer(Modifier.width(dimensionResource(R.dimen.app_small_spacing)))
+                Text(purchaseTipString, style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+
+        item {
+            DeletableTextField(
+                modifier = Modifier
+                    .padding(
+                        vertical = dimensionResource(R.dimen.app_medium_spacing),
+                        horizontal = dimensionResource(R.dimen.app_large_spacing),
+                    )
+                    .fillMaxWidth(),
+                value = query,
+                onValueChange = { query ->
+                    productsViewModel.search(dispenserId, query)
+                },
+                label = { Text(stringResource(R.string.products_search_bar_label)) },
+                leadingIcon = {
+                    Icon(
+                        AppIcons.Search, stringResource(R.string.products_search_bar_label)
+                    )
+                },
+                imeAction = ImeAction.Search,
+            )
+        }
+
+        items(products) {
+            ProductCard(
+                it,
+                onProductPurchase = onProductPurchase,
+                onProductInfo = onProductInfo,
+                onShowReportWarning = onShowReport,
+            )
+        }
+
+        item {
+            if (products.isEmpty()) {
+                Text(
+                    stringResource(R.string.products_search_not_found_description),
+                    modifier = Modifier
+                        .padding(vertical = dimensionResource(R.dimen.app_large_spacing))
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ProductsBottomSheetWrapper(
+    onProductPurchase: (Product) -> Unit,
+    content: @Composable (OnShowBottomSheetProduct) -> Unit,
+) {
+    var lastReportDate by remember { mutableStateOf("") }
+    var productName by remember { mutableStateOf("") }
+
+    ModalBottomSheet(
+        title = stringResource(R.string.product_report_warning_title),
+        description = stringResource(
+            R.string.product_report_warning_description, lastReportDate, productName
+        ),
+        buttons = { /*TODO*/ },
+    ) { openBottomSheet ->
+        content { productToShow ->
+            lastReportDate = productToShow.lastReport?.dateString.orEmpty()
+            productName = productToShow.product.name
+            openBottomSheet()
         }
     }
 }

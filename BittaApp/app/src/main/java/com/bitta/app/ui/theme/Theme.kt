@@ -109,3 +109,9 @@ fun BittaAppTheme(
         content = content,
     )
 }
+
+val Color.Companion.Success: Color
+    get() = Color(0xFF1C6E15)
+
+val Color.Companion.Warning: Color
+    get() = Color(0xFFA38903)

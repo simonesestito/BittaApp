@@ -1,7 +1,10 @@
 package com.bitta.app
 
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.TextUnit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 
@@ -22,6 +25,11 @@ inline fun <T> LiveData<List<T>>.filter(crossinline filter: (T) -> Boolean): Liv
             this.value = it.orEmpty().filter(filter)
         }
     }
+}
+
+@Composable
+fun TextUnit.toDp() = with(LocalDensity.current) {
+    this@toDp.toDp()
 }
 
 data class SnackbarInfo(

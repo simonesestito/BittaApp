@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.bitta.app.R
 import com.bitta.app.mix
 import com.bitta.app.model.WorkingStatus
+import com.bitta.app.ui.theme.Success
+import com.bitta.app.ui.theme.Warning
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,12 +25,12 @@ fun DispenserWorkingIndicator(workingStatus: WorkingStatus, onStatusClick: () ->
     val (icon: ImageVector, color: Color, @StringRes stringId: Int) = when (workingStatus) {
         WorkingStatus.OK -> Triple(
             AppIcons.Check,
-            Color(0xFF1C6E15),
+            Color.Success,
             R.string.dispenser_working_status_ok
         )
         WorkingStatus.WITH_REPORTS -> Triple(
             AppIcons.Warning,
-            Color(0xFFA38903),
+            Color.Warning,
             R.string.dispenser_working_status_with_reports
         )
         WorkingStatus.NOT_WORKING -> Triple(
