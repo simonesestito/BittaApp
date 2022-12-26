@@ -54,5 +54,7 @@
     <string name="input_required_error_label">Campo obbligatorio</string>
     <string name="report_other_reason_input_title">Descrivi il problema che hai avuto</string>
     <string name="product_report_warning_title">C\'è una segnalazione</string>
-    <string name="product_report_warning_description">%1$s un utente ha segnalato un problema nell\'erogazione del prodotto "%2$s".\nVuoi continuare?</string>
+    <string name="product_report_warning_description">%1$s un utente ha segnalato un problema nell\'erogazione del prodotto \"%2$s\".\nVuoi continuare?</string>
+    <string name="product_purchase_cancel_button">Annulla</string>
+    <string name="product_do_purchase_with_report_button">Acquista comunque</string>
 </resources>

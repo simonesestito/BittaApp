@@ -1,5 +1,6 @@
 package com.bitta.app.ui.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Payments
@@ -36,7 +37,7 @@ fun ProductCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            ProductTitleWithWarning(reportedProduct)
+            ProductTitleWithWarning(reportedProduct, onShowReportWarning)
             Text(
                 "${product.price.toStringAsFixed(2)}€",
                 style = MaterialTheme.typography.titleLarge,
@@ -76,7 +77,10 @@ fun ProductCard(
 }
 
 @Composable
-private fun ProductTitleWithWarning(reportedProduct: ReportedProduct) {
+private fun ProductTitleWithWarning(
+    reportedProduct: ReportedProduct,
+    onShowReportWarning: OnShowBottomSheetProduct,
+) {
     Row {
         Text(reportedProduct.product.name, style = MaterialTheme.typography.titleLarge)
         if (reportedProduct.lastReport != null) {
@@ -86,6 +90,9 @@ private fun ProductTitleWithWarning(reportedProduct: ReportedProduct) {
                         MaterialTheme.typography.titleLarge.fontSize.toDp(),
                     )
                     .align(Alignment.CenterVertically)
+                    .clickable {
+                        onShowReportWarning(reportedProduct)
+                    }
                     .padding(start = dimensionResource(R.dimen.app_small_spacing)),
                 imageVector = AppIcons.Warning,
                 tint = Color.Warning,
