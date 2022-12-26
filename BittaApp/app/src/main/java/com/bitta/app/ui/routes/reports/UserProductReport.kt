@@ -6,7 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
 import com.bitta.app.datasource.DataSource
-import com.bitta.app.datasource.products
+import com.bitta.app.datasource.simpleProducts
 import com.bitta.app.model.UserReportKind
 import com.bitta.app.ui.composables.EditableDropdownMenu
 
@@ -17,7 +17,7 @@ fun UserProductReport(
     onReportSent: (() -> Unit) -> Unit,
 ) {
     val productReportLabel = stringResource(UserReportKind.PRODUCT_DELIVERY.descriptionId)
-    val products = DataSource.products
+    val products = DataSource.simpleProducts
     val errorState = remember { mutableStateOf(false) }
 
     ReportDetailsSkeleton(
@@ -34,7 +34,7 @@ fun UserProductReport(
             product?.let { "$productReportLabel: ${it.name}" }
         },
     ) { selectedProductState, onSend ->
-        EditableDropdownMenu(DataSource.products, selectedProductState, errorState) {
+        EditableDropdownMenu(DataSource.simpleProducts, selectedProductState, errorState) {
             onSend()
         }
     }

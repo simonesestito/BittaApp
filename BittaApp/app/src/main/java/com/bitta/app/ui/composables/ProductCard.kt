@@ -14,14 +14,21 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
 import com.bitta.app.model.Product
+import com.bitta.app.model.ReportedProduct
 import com.bitta.app.toStringAsFixed
 
 @Composable
 fun ProductCard(
-    product: Product,
+    reportedProduct: ReportedProduct,
     onProductPurchase: (Product) -> Unit,
     onProductInfo: (Product) -> Unit,
 ) {
+    val (product, productReport) = reportedProduct
+
+    if (productReport != null) {
+        // TODO: If product has a report
+    }
+
     AppCard {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

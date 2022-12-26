@@ -1,11 +1,15 @@
 package com.bitta.app.datasource
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import com.bitta.app.model.Product
+import com.bitta.app.model.ProductReport
+import com.bitta.app.model.ReportedProduct
 
 /**
  * Fake products to retrieve
  */
-val DataSource.products: List<Product>
+val DataSource.simpleProducts: List<Product>
     get() = listOf(
         Product(
             id = 1,
@@ -203,3 +207,19 @@ val DataSource.products: List<Product>
             ),
         ),
     ).sortedBy { it.name }
+
+fun DataSource.productsForDispenser(dispenserId: Int): LiveData<List<ReportedProduct>> =
+    MediatorLiveData<List<ReportedProduct>>().apply {
+        addSource(DataSource.reports) { reports ->
+            this.value = simpleProducts.map { product ->
+                val lastReport = reports.asSequence().mapNotNull { it as? ProductReport }
+                    .filter { it.productId == product.id && it.dispenserId == dispenserId }
+                    .sortedBy {
+                        if (it.dateString.first().isDigit()) it.dateString
+                        else "0" // "Adesso" (= "now") should be "0"
+                    }.firstOrNull()
+
+                ReportedProduct(product, lastReport)
+            }
+        }
+    }

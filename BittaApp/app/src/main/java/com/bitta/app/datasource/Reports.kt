@@ -2,6 +2,7 @@ package com.bitta.app.datasource
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.bitta.app.model.ProductReport
 import com.bitta.app.model.Report
 import com.bitta.app.model.ReportKind
 
@@ -26,11 +27,11 @@ private val mutableReports = MutableLiveData(
             dispenserId = 10003,
             dateString = "15 minuti fa",
         ),
-        Report(
+        ProductReport(
             description = "Prodotto non erogato: Caffè classico",
-            kind = ReportKind.USER_REPORT,
             dispenserId = 10003,
             dateString = "20 minuti fa",
+            productId = 13,
         ),
         Report(
             description = "Resto non dato",
@@ -52,17 +53,17 @@ private val mutableReports = MutableLiveData(
             dispenserId = 10004,
             dateString = "2 minuti fa",
         ),
+        ProductReport(
+            description = "Prodotto non erogato: Caffè classico",
+            dispenserId = 10004,
+            dateString = "3 minuti fa",
+            productId = 13,
+        ),
         Report(
             description = "Resto non dato",
             kind = ReportKind.USER_REPORT,
             dispenserId = 10004,
             dateString = "15 minuti fa",
-        ),
-        Report(
-            description = "Prodotto non erogato: Caffè classico",
-            kind = ReportKind.USER_REPORT,
-            dispenserId = 10004,
-            dateString = "20 minuti fa",
         ),
         Report(
             description = "Resto non dato",

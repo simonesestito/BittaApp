@@ -8,3 +8,8 @@ data class Product(
     val ingredients: List<String>,
     val nutritionalValues: List<Pair<String, String>>,
 )
+
+data class ReportedProduct(
+    val product: Product,
+    val lastReport: ProductReport?,
+)

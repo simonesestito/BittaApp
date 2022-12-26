@@ -5,7 +5,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.TipsAndUpdates
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -21,7 +23,6 @@ import com.bitta.app.model.Product
 import com.bitta.app.ui.composables.*
 import com.bitta.app.viewmodel.ProductsViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductsSearch(
     dispenserId: Int,
@@ -34,10 +35,14 @@ fun ProductsSearch(
     val subtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
 
     AppSkeleton(title, subtitle, onBack) { padding ->
+        val loading by productsViewModel.loading.observeAsState(true)
         val products by productsViewModel.products.observeAsState(listOf())
         val query by productsViewModel.query.observeAsState("")
 
-        if (products.isEmpty() && query.isBlank()) {
+        // Set new dispenser ID
+        productsViewModel.search(dispenserId, "")
+
+        if (loading) {
             LoadingIndicator(textId = R.string.dispenser_products_loading_indicator)
         } else {
             LazyColumn(
@@ -73,7 +78,9 @@ fun ProductsSearch(
                             )
                             .fillMaxWidth(),
                         value = query,
-                        onValueChange = productsViewModel::search,
+                        onValueChange = { query ->
+                            productsViewModel.search(dispenserId, query)
+                        },
                         label = { Text(stringResource(R.string.products_search_bar_label)) },
                         leadingIcon = {
                             Icon(

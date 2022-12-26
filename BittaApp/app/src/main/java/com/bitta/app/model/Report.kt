@@ -7,11 +7,23 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.bitta.app.R
 import com.bitta.app.ui.composables.AppIcons
 
-data class Report(
+open class Report(
     val description: String,
     val kind: ReportKind,
     val dispenserId: Int,
     val dateString: String, // A date should be a proper date, but in this fake world it's "since X minutes" and similar
+)
+
+class ProductReport(
+    description: String,
+    dispenserId: Int,
+    dateString: String,
+    val productId: Int,
+) : Report(
+    description,
+    ReportKind.USER_REPORT,
+    dispenserId,
+    dateString,
 )
 
 enum class ReportKind {

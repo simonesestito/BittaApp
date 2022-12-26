@@ -1,43 +1,50 @@
 package com.bitta.app.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.bitta.app.DELAY_FAKE_LOADING_TIME
 import com.bitta.app.datasource.DataSource
-import com.bitta.app.datasource.products
-import com.bitta.app.model.Product
+import com.bitta.app.datasource.productsForDispenser
+import com.bitta.app.datasource.simpleProducts
+import com.bitta.app.model.ReportedProduct
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductsViewModel : ViewModel() {
-    private val _products = MutableLiveData<List<Product>>()
-    private var _query = MutableLiveData("")
+    private val _loading = MutableLiveData(true)
+    private val _query = MutableLiveData("")
+    private val _products = MediatorLiveData<List<ReportedProduct>>()
+    private var _oldProductsSource: LiveData<List<ReportedProduct>>? = null
 
-    val products: LiveData<List<Product>> = _products
+    val loading: LiveData<Boolean> = _loading
     val query: LiveData<String> = _query
+    val products: LiveData<List<ReportedProduct>> = _products
 
     init {
         viewModelScope.launch {
             delay(DELAY_FAKE_LOADING_TIME)
-            _products.postValue(DataSource.products)
+            _loading.value = false
         }
     }
 
-    fun search(query: String) {
+    fun search(dispenserId: Int, query: String) {
         _query.value = query
+        if (_oldProductsSource != null) {
+            _products.removeSource(_oldProductsSource!!)
+        }
 
-        if (query.isBlank()) {
-            // No query
-            _products.value = DataSource.products
-        } else {
-            // Search products
-            _products.value = DataSource.products.filter {
-                it.name.contains(query, ignoreCase = true)
+        _oldProductsSource = DataSource.productsForDispenser(dispenserId)
+        _products.addSource(_oldProductsSource!!) { allProducts ->
+            if (query.isBlank()) {
+                // No query
+                _products.value = allProducts
+            } else {
+                // Search products
+                _products.value = allProducts.filter {
+                    it.product.name.contains(query, ignoreCase = true)
+                }
             }
         }
     }
 
-    fun getProductById(id: Int) = DataSource.products.find { it.id == id }!!
+    fun getProductById(id: Int) = DataSource.simpleProducts.find { it.id == id }!!
 }
