@@ -45,10 +45,21 @@ internal fun ReportDetailsSkeleton(
     onReportSent: (() -> Unit) -> Unit,
     onSend: (String) -> String?,
     inputState: MutableState<String> = remember { mutableStateOf("") },
-    content: @Composable ColumnScope.(MutableState<String>) -> Unit,
+    content: @Composable ColumnScope.(MutableState<String>, () -> Unit) -> Unit,
 ) {
     val dispenserSubtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
     val reportKindSubtitle = stringResource(kind.labelId)
+
+    val onSendingReport = {
+        val description = onSend(inputState.value)
+        if (description != null) {
+            sendReport(description, dispenserId)
+            onReportSent {
+                // Cancel action
+                DataSource.removeLastReport()
+            }
+        }
+    }
 
     AppSkeleton(
         title = stringResource(R.string.new_report_route_title),
@@ -59,15 +70,7 @@ internal fun ReportDetailsSkeleton(
                 modifier = Modifier.imePadding(),
                 icon = { Icon(AppIcons.Send, contentDescription = null) },
                 text = { Text(stringResource(R.string.report_fab_send_label)) },
-                onClick = {
-                    val description =
-                        onSend(inputState.value) ?: return@ExtendedFloatingActionButton
-                    sendReport(description, dispenserId)
-                    onReportSent {
-                        // Cancel action
-                        DataSource.removeLastReport()
-                    }
-                },
+                onClick = onSendingReport,
             )
         },
     ) { padding ->
@@ -82,7 +85,7 @@ internal fun ReportDetailsSkeleton(
                 style = MaterialTheme.typography.titleMedium,
             )
             Spacer(Modifier.height(dimensionResource(R.dimen.app_small_spacing)))
-            content(inputState)
+            content(inputState, onSendingReport)
         }
     }
 }

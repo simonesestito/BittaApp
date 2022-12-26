@@ -2,6 +2,7 @@ package com.bitta.app.ui.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,9 +19,10 @@ fun EditableDropdownMenu(
     listItems: List<Product>,
     queryState: MutableState<String>,
     errorState: MutableState<Boolean>,
+    onSend: KeyboardActionScope.() -> Unit,
 ) {
     var query by queryState
-    val error by errorState
+    var error by errorState
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
@@ -38,8 +40,8 @@ fun EditableDropdownMenu(
                 .menuAnchor()
                 .fillMaxWidth(),
             value = query,
-            onValueChange = { query = it; expanded = true },
-            isError = error,
+            onValueChange = { query = it; expanded = true; error = false },
+            isError = errorState,
             supportingText = { if (error) Text(stringResource(R.string.products_search_error)) },
             label = { Text(stringResource(R.string.products_search_bar_label)) },
             leadingIcon = {
@@ -47,7 +49,8 @@ fun EditableDropdownMenu(
                     AppIcons.Search, stringResource(R.string.products_search_bar_label)
                 )
             },
-            imeAction = ImeAction.Search,
+            imeAction = ImeAction.Send,
+            onImeSend = onSend,
         )
 
         // filter options based on text field value

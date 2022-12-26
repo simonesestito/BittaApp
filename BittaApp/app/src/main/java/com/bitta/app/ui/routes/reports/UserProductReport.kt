@@ -32,7 +32,10 @@ fun UserProductReport(
             }
             errorState.value = product == null
             product?.let { "$productReportLabel: ${it.name}" }
-        }) { selectedProductState ->
-        EditableDropdownMenu(DataSource.products, selectedProductState, errorState)
+        },
+    ) { selectedProductState, onSend ->
+        EditableDropdownMenu(DataSource.products, selectedProductState, errorState) {
+            onSend()
+        }
     }
 }

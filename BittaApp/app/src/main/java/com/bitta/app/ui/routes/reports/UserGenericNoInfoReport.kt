@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import com.bitta.app.R
 import com.bitta.app.model.UserReportKind
 import com.bitta.app.ui.composables.AppIcons
@@ -32,7 +33,7 @@ fun UserGenericNoInfoReport(
         onBack = onBack,
         onReportSent = onReportSent,
         onSend = { issueDescription },
-    ) { inputState ->
+    ) { inputState, onSend ->
         var query by inputState
         DeletableTextField(
             modifier = Modifier
@@ -48,6 +49,8 @@ fun UserGenericNoInfoReport(
             leadingIcon = {
                 Icon(AppIcons.EditNote, null)
             },
+            imeAction = ImeAction.Send,
+            onImeSend = { onSend() },
         )
     }
 }

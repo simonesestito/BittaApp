@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import com.bitta.app.R
 import com.bitta.app.model.UserReportKind
 import com.bitta.app.ui.composables.AppIcons
@@ -22,8 +23,9 @@ fun UserOtherReport(
 ) {
     val issueDescription = stringResource(UserReportKind.OTHER.descriptionId)
     val inputState = remember { mutableStateOf("") }
+    val errorState = remember { mutableStateOf(false) }
     var query by inputState
-    var error by remember { mutableStateOf(false) }
+    var error by errorState
 
     ReportDetailsSkeleton(
         kind = UserReportKind.OTHER,
@@ -41,7 +43,7 @@ fun UserOtherReport(
                 issueDescription
             }
         },
-    ) { _ ->
+    ) { _, onSend ->
         DeletableTextField(
             modifier = Modifier
                 .padding(
@@ -55,10 +57,12 @@ fun UserOtherReport(
             leadingIcon = {
                 Icon(AppIcons.EditNote, null)
             },
-            isError = error,
+            isError = errorState,
             supportingText = if (error) ({
                 Text(stringResource(R.string.input_required_error_label))
-            }) else null
+            }) else null,
+            imeAction = ImeAction.Send,
+            onImeSend = { onSend() }
         )
     }
 }
