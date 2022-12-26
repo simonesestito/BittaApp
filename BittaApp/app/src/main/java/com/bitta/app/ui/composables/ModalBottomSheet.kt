@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -28,24 +29,33 @@ fun ModalBottomSheet(
     ModalBottomSheetLayout(
         sheetState = state,
         sheetShape = RoundedCornerShape(dimensionResource(R.dimen.bottom_sheet_corner_radius)),
+        sheetBackgroundColor = MaterialTheme.colorScheme.surface,
         sheetContent = {
             Column(
                 modifier = Modifier.padding(dimensionResource(R.dimen.app_large_spacing)),
             ) {
-                Text(
-                    title,
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.app_large_spacing)))
-                Text(description)
-                ButtonsRow {
-                    buttons {
-                        scope.launch { state.hide() }
+                // Since ModalBottomSheetLayout is from Material2,
+                // text color needs to be propagated this way.
+                // Background color is set as a parameter in the Composable.
+                CompositionLocalProvider(
+                    LocalContentColor provides MaterialTheme.colorScheme.onSurface
+                ) {
+                    Text(
+                        title,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = LocalContentColor.current,
+                    )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.app_large_spacing)))
+                    Text(description, color = LocalContentColor.current)
+                    ButtonsRow {
+                        buttons {
+                            scope.launch { state.hide() }
+                        }
                     }
+                    Spacer(Modifier.height(dimensionResource(R.dimen.app_large_spacing)))
                 }
-                Spacer(Modifier.height(dimensionResource(R.dimen.app_large_spacing)))
             }
         },
         content = {
