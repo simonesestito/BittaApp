@@ -10,7 +10,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.bitta.app.R
 import kotlinx.coroutines.launch
 
@@ -28,7 +27,7 @@ fun ModalBottomSheet(
     val scope = rememberCoroutineScope()
     ModalBottomSheetLayout(
         sheetState = state,
-        sheetShape = RoundedCornerShape(8.dp),
+        sheetShape = RoundedCornerShape(dimensionResource(R.dimen.bottom_sheet_corner_radius)),
         sheetContent = {
             Column(
                 modifier = Modifier.padding(dimensionResource(R.dimen.app_large_spacing)),

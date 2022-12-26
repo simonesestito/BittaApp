@@ -65,4 +65,6 @@
     <string name="post_purchase_cancel_confirm_refund">Rimborsa</string>
     <string name="post_purchase_cancel_continue_delivery">Continua l\'acquisto</string>
     <string name="product_purchase_cancel_delivery_button">Annulla acquisto</string>
+    <string name="post_purchase_banner_title">Acquisto confermato</string>
+    <string name="post_purchase_banner_description">Appena è il tuo turno al distributore, scansiona il codice QR che trovi affisso per ricevere i tuoi prodotti</string>
 </resources>

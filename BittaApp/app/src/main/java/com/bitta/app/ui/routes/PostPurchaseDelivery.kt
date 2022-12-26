@@ -4,8 +4,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -78,7 +83,11 @@ private fun PostPurchaseDeliveryContent(
             Arrangement.SpaceBetween,
             Alignment.CenterHorizontally,
         ) {
-            Text("AAAAAAAAA") // TODO: Add filled card with success icon and message
+            SuccessFilledCard(
+                title = stringResource(R.string.post_purchase_banner_title),
+                description = stringResource(R.string.post_purchase_banner_description),
+                icon = Icons.App.QrCodeScanner,
+            )
 
             CameraPreview(
                 Modifier

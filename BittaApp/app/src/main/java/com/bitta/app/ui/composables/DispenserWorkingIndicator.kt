@@ -46,7 +46,7 @@ fun DispenserWorkingIndicator(workingStatus: WorkingStatus, onStatusClick: () ->
         label = { Text(label) },
         leadingIcon = { Icon(icon, contentDescription = label) },
         colors = AssistChipDefaults.assistChipColors(
-            containerColor = color.mix(MaterialTheme.colorScheme.surface, 0.1f),
+            containerColor = color.mix(MaterialTheme.colorScheme.surface),
             leadingIconContentColor = color,
         ),
         onClick = onStatusClick,
