@@ -6,15 +6,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
 
 @Composable
-fun BackHandler(enabled: Boolean = true, onBack: () -> Unit) {
+fun BackHandler(onBack: () -> Unit) {
     val currentOnBack by rememberUpdatedState(onBack)
     // Remember in Composition a back callback that calls the `onBack` lambda
     val backCallback = remember {
-        object : OnBackPressedCallback(enabled) {
+        object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 currentOnBack()
             }
-        }.apply { isEnabled = true }
+        }
     }
 
     val backDispatcher = checkNotNull(LocalOnBackPressedDispatcherOwner.current) {

@@ -210,7 +210,7 @@ fun AppNavigator(
         ) { backStackEntry ->
             PostPurchaseDelivery(
                 backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!,
-                onCancelPurchase = { /*TODO*/ },
+                onCancelPurchase = { navController.popBackStack() },
                 onProductDelivered = { /*TODO*/ },
             )
         }

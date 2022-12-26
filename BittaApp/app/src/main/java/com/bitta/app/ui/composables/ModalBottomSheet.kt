@@ -2,10 +2,7 @@ package com.bitta.app.ui.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,12 +19,12 @@ typealias OnOpenCallback = () -> Unit
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ModalBottomSheet(
+    state: ModalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
     title: String,
     description: String,
     buttons: @Composable (cancel: OnOpenCallback) -> Unit,
     viewContent: @Composable (open: OnOpenCallback) -> Unit,
 ) {
-    val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
     ModalBottomSheetLayout(
         sheetState = state,
@@ -58,4 +55,21 @@ fun ModalBottomSheet(
             }
         },
     )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ModalBottomSheet(
+    state: ModalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
+    title: String,
+    description: String,
+    cancelButton: @Composable (cancel: OnOpenCallback) -> Unit,
+    confirmButton: @Composable (cancel: OnOpenCallback) -> Unit,
+    viewContent: @Composable (open: OnOpenCallback) -> Unit,
+) {
+    ModalBottomSheet(state, title, description, buttons = { onClose ->
+        cancelButton(onClose)
+        Spacer(Modifier.width(dimensionResource(R.dimen.button_spacing)))
+        confirmButton(onClose)
+    }, viewContent)
 }

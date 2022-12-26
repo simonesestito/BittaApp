@@ -41,21 +41,19 @@ fun CameraPreview(
                 LaunchedEffect(cameraPermissionState) {
                     cameraPermissionState.launchPermissionRequest()
                 }
-            } else {
-                // Show information
-                Column(
-                    modifier.fillMaxHeight(),
-                    Arrangement.Center,
-                    Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        stringResource(R.string.camera_permission_description),
-                        textAlign = TextAlign.Center,
-                    )
-                    Spacer(Modifier.height(dimensionResource(R.dimen.app_large_spacing)))
-                    Button(cameraPermissionState::launchPermissionRequest) {
-                        AppButtonContent(AppIcons.Camera, R.string.grant_permission_button)
-                    }
+            }
+
+            // Show information
+            Column(
+                modifier.fillMaxHeight(), Arrangement.Center, Alignment.CenterHorizontally
+            ) {
+                Text(
+                    stringResource(R.string.camera_permission_description),
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.app_large_spacing)))
+                Button(cameraPermissionState::launchPermissionRequest) {
+                    AppButtonContent(AppIcons.Camera, R.string.grant_permission_button)
                 }
             }
         }

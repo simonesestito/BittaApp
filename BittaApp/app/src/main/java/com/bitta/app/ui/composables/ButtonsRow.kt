@@ -10,12 +10,16 @@ import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
-fun ButtonsRow(content: @Composable () -> Unit) {
+fun ButtonsRow(
+    modifier: Modifier = Modifier,
+    mainAxisAlignment: FlowMainAxisAlignment = FlowMainAxisAlignment.End,
+    content: @Composable () -> Unit,
+) {
     FlowRow(
-        modifier = Modifier
+        modifier
             .fillMaxWidth()
             .padding(top = dimensionResource(R.dimen.card_content_padding)),
-        mainAxisAlignment = FlowMainAxisAlignment.End,
+        mainAxisAlignment = mainAxisAlignment,
     ) {
         content()
     }

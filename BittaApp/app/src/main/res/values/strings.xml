@@ -60,4 +60,9 @@
     <string name="camera_permission_description">L\'accesso alla fotocamera è necessario per inquadrare il codice QR</string>
     <string name="post_purchase_delivery_route_title">Ritiro prodotto</string>
     <string name="grant_permission_button">Consenti</string>
+    <string name="post_purchase_cancel_confirmation_title">Annullare l\'acquisto?</string>
+    <string name="post_purchase_cancel_confirmation_description">Il tuo acquisto verrà annullato e l\'intero importo sarà rimborsato</string>
+    <string name="post_purchase_cancel_confirm_refund">Rimborsa</string>
+    <string name="post_purchase_cancel_continue_delivery">Continua l\'acquisto</string>
+    <string name="product_purchase_cancel_delivery_button">Annulla acquisto</string>
 </resources>

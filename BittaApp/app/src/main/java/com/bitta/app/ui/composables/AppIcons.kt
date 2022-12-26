@@ -30,6 +30,8 @@ object AppIcons {
     val Send = Icons.App.Send
     val EditNote = Icons.App.EditNote
     val Camera = Icons.App.PhotoCamera
+    val CreditCardOff = Icons.App.CreditCardOff
+    val ShoppingCartCheckout = Icons.App.ShoppingCartCheckout
 }
 
 /**
