@@ -1,7 +1,6 @@
 package com.bitta.app.model
 
 import androidx.annotation.StringRes
-import androidx.compose.material.icons.outlined.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.bitta.app.R

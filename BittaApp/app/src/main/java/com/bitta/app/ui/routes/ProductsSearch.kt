@@ -3,7 +3,6 @@ package com.bitta.app.ui.routes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -155,14 +154,14 @@ private fun ProductsBottomSheetWrapper(
             product?.product?.name.orEmpty(),
         ),
         buttons = { onClose ->
-            if (product == null) onClose();
+            if (product == null) onClose()
 
             OutlinedButton(onClick = onClose) {
                 AppButtonContent(AppIcons.Close, R.string.product_purchase_cancel_button)
             }
             Spacer(Modifier.width(dimensionResource(R.dimen.button_spacing)))
             Button(onClick = { onClose(); onProductPurchase(product?.product!!) }) {
-                AppButtonContent(AppIcons.Money, R.string.product_do_purchase_with_report_button)
+                AppButtonContent(AppIcons.Payments, R.string.product_do_purchase_with_report_button)
             }
         },
     ) { openBottomSheet ->

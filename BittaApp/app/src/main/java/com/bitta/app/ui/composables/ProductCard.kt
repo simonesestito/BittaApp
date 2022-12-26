@@ -2,9 +2,6 @@ package com.bitta.app.ui.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Payments
-import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment

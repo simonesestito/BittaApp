@@ -1,7 +1,6 @@
 package com.bitta.app.ui.composables
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material.icons.outlined.ArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem

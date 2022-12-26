@@ -6,5 +6,4 @@ package com.bitta.app.datasource
  * Other files in this package define example data to return.
  * It's kept split in multiple files to keep everything in order.
  */
-object DataSource {
-}
+object DataSource
