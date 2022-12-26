@@ -1,19 +1,23 @@
 package com.bitta.app.ui.composables
 
 import android.Manifest
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
-import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -21,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.bitta.app.R
+import com.bitta.app.ui.theme.Warning
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -30,11 +35,10 @@ import com.google.accompanist.permissions.rememberPermissionState
 fun CameraPreview(
     modifier: Modifier = Modifier,
     cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
-    scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER,
 ) {
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
     when (val cameraStatus = cameraPermissionState.status) {
-        PermissionStatus.Granted -> CameraPreviewContent(modifier, cameraSelector, scaleType)
+        PermissionStatus.Granted -> CameraPreviewContent(modifier, cameraSelector)
         is PermissionStatus.Denied -> {
             if (!cameraStatus.shouldShowRationale) {
                 // Ask for camera permission straight away
@@ -64,17 +68,14 @@ fun CameraPreview(
 private fun CameraPreviewContent(
     modifier: Modifier,
     cameraSelector: CameraSelector,
-    scaleType: PreviewView.ScaleType,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    AndroidView(modifier = modifier, factory = { context ->
+    val backgroundColor = MaterialTheme.colorScheme.background
+    AndroidView(modifier = modifier.background(color = Color.Warning), factory = { context ->
         val previewView = PreviewView(context).apply {
-            this.scaleType = scaleType
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            // Preview is incorrectly scaled in Compose on some devices without this
-            implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+            this.background = ColorDrawable(backgroundColor.toArgb())
+            this.scaleType = PreviewView.ScaleType.FIT_CENTER
+            this.implementationMode = PreviewView.ImplementationMode.PERFORMANCE
         }
 
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
