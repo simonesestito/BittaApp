@@ -32,7 +32,7 @@ fun ProductsSearch(
     val title = stringResource(R.string.products_route_title)
     val subtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
 
-    ProductsBottomSheetWrapper(onProductPurchase) { onShowReport ->
+    ProductsBottomSheetWrapper(/* TODO: Show Google Pay */ onProductPurchase) { onShowReport ->
         AppSkeleton(title, subtitle, onBack) { padding ->
             val loading by productsViewModel.loading.observeAsState(true)
             val products by productsViewModel.products.observeAsState(listOf())

@@ -11,4 +11,5 @@
     <dimen name="input_vertical_padding">@dimen/app_medium_spacing</dimen>
     <dimen name="input_horizontal_padding">@dimen/app_large_spacing</dimen>
     <dimen name="splash_screen_icon_size">54dp</dimen>
+    <dimen name="camera_preview_box_margin">32dp</dimen>
 </resources>

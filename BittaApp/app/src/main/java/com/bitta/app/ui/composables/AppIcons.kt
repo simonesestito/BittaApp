@@ -29,6 +29,7 @@ object AppIcons {
     val TipsAndUpdates = Icons.App.TipsAndUpdates
     val Send = Icons.App.Send
     val EditNote = Icons.App.EditNote
+    val Camera = Icons.App.PhotoCamera
 }
 
 /**

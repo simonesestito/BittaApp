@@ -57,4 +57,7 @@
     <string name="product_report_warning_description">%1$s un utente ha segnalato un problema nell\'erogazione del prodotto \"%2$s\".\nVuoi continuare?</string>
     <string name="product_purchase_cancel_button">Annulla</string>
     <string name="product_do_purchase_with_report_button">Acquista comunque</string>
+    <string name="camera_permission_description">L\'accesso alla fotocamera è necessario per inquadrare il codice QR</string>
+    <string name="post_purchase_delivery_route_title">Ritiro prodotto</string>
+    <string name="grant_permission_button">Consenti</string>
 </resources>

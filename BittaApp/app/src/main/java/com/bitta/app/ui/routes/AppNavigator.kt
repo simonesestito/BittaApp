@@ -31,6 +31,7 @@ private const val NEW_REPORT_PRODUCT_DETAILS = "newReportDetails/product"
 private const val NEW_REPORT_OTHER_DETAILS = "newReportDetails/other"
 private const val NEW_REPORT_CHANGE_DETAILS = "newReportDetails/change"
 private const val NEW_REPORT_DAMAGED_DETAILS = "newReportDetails/damaged"
+private const val POST_PURCHASE_DELIVERY = "postPurchaseDelivery"
 
 fun NavHostController.toProducts(dispenserId: Int) = navigate("$PRODUCTS/$dispenserId")
 fun NavHostController.toProductInfo(productId: Int) = navigate("$PRODUCT_INFO/$productId")
@@ -45,6 +46,9 @@ fun NavHostController.toNewReportDetails(dispenserId: Int, kind: UserReportKind)
     }
     navigate("$route/$dispenserId")
 }
+
+fun NavHostController.toPostPurchaseDelivery(dispenserId: Int) =
+    navigate("$POST_PURCHASE_DELIVERY/$dispenserId")
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
@@ -71,11 +75,12 @@ fun AppNavigator(
                 type = NavType.IntType
             })
         ) { backStackEntry ->
+            val dispenserId = backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!
             ProductsSearch(
-                backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!,
+                dispenserId,
                 onBack = navController::popBackStack,
                 onProductInfo = { navController.toProductInfo(it.id) },
-                onProductPurchase = { /* TODO*/ },
+                onProductPurchase = { navController.toPostPurchaseDelivery(dispenserId) },
             )
         }
 
@@ -194,6 +199,19 @@ fun AppNavigator(
                 backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
                 onBack = navController::popBackStack,
                 onReportSent = onReportSent,
+            )
+        }
+
+        composable(
+            "$POST_PURCHASE_DELIVERY/{$PRODUCTS_DISPENSER_ID_ARG}",
+            arguments = listOf(navArgument(PRODUCTS_DISPENSER_ID_ARG) {
+                type = NavType.IntType
+            })
+        ) { backStackEntry ->
+            PostPurchaseDelivery(
+                backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!,
+                onCancelPurchase = { /*TODO*/ },
+                onProductDelivered = { /*TODO*/ },
             )
         }
     }
