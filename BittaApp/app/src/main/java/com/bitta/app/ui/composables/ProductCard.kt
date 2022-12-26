@@ -12,10 +12,10 @@ import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
 import com.bitta.app.model.Product
 import com.bitta.app.model.ReportedProduct
-import com.bitta.app.toDp
-import com.bitta.app.toStringAsFixed
 import com.bitta.app.ui.routes.OnShowBottomSheetProduct
 import com.bitta.app.ui.theme.Warning
+import com.bitta.app.utils.toDp
+import com.bitta.app.utils.toStringAsFixed
 
 typealias OnProductCallback = (Product) -> Unit
 

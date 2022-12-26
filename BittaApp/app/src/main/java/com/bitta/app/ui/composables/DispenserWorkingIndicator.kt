@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bitta.app.R
-import com.bitta.app.mix
 import com.bitta.app.model.WorkingStatus
 import com.bitta.app.ui.theme.Success
 import com.bitta.app.ui.theme.Warning
+import com.bitta.app.utils.mix
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

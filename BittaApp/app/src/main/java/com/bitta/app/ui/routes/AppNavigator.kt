@@ -8,12 +8,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bitta.app.R
-import com.bitta.app.SnackbarInfo
 import com.bitta.app.model.UserReportKind
 import com.bitta.app.ui.routes.reports.UserChangeReport
 import com.bitta.app.ui.routes.reports.UserDamageReport
 import com.bitta.app.ui.routes.reports.UserOtherReport
 import com.bitta.app.ui.routes.reports.UserProductReport
+import com.bitta.app.utils.SnackbarInfo
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel

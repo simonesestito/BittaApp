@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bitta.app.DELAY_FAKE_LOADING_TIME
 import com.bitta.app.datasource.DataSource
 import com.bitta.app.datasource.dispensers
 import com.bitta.app.datasource.reports
 import com.bitta.app.model.DispenserWithStatus
 import com.bitta.app.model.ReportKind
 import com.bitta.app.model.WorkingStatus
+import com.bitta.app.utils.DELAY_FAKE_LOADING_TIME
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

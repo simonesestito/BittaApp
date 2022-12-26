@@ -9,8 +9,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import com.bitta.app.R
-import com.bitta.app.mix
 import com.bitta.app.ui.theme.Success
+import com.bitta.app.utils.mix
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

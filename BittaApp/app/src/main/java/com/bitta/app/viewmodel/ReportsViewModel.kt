@@ -1,12 +1,12 @@
 package com.bitta.app.viewmodel
 
 import androidx.lifecycle.*
-import com.bitta.app.DELAY_FAKE_LOADING_TIME
 import com.bitta.app.datasource.DataSource
 import com.bitta.app.datasource.reports
-import com.bitta.app.filter
 import com.bitta.app.model.Report
 import com.bitta.app.model.ReportKind
+import com.bitta.app.utils.DELAY_FAKE_LOADING_TIME
+import com.bitta.app.utils.filter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

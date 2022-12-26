@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.whenResumed
-import com.bitta.app.SnackbarInfo
+import com.bitta.app.utils.SnackbarInfo
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.isActive
 

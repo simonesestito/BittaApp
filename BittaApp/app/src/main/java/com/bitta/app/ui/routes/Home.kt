@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bitta.app.R
-import com.bitta.app.SnackbarInfo
 import com.bitta.app.ui.composables.AppSkeleton
 import com.bitta.app.ui.composables.DispenserCard
 import com.bitta.app.ui.composables.LoadingIndicator
 import com.bitta.app.ui.composables.RegisterSnackbarEvents
+import com.bitta.app.utils.SnackbarInfo
 import com.bitta.app.viewmodel.DispenserViewModel
 import kotlinx.coroutines.channels.Channel
 
