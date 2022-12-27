@@ -1,7 +1,7 @@
 package com.bitta.app.ui.routes
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -65,7 +65,7 @@ fun AppNavigator(
     val preferences = LocalContext.current.getPreferences()
 
     // Reload last purchase, if not yet completed.
-    SideEffect {
+    LaunchedEffect(true) {
         val ongoingPurchaseDispenserId = preferences.ongoingPurchaseDispenserId
         if (ongoingPurchaseDispenserId != null) {
             // There is a purchase still not completed.
