@@ -111,10 +111,13 @@ private fun PostPurchaseDeliveryContent(
             )
 
             // Since it's a prototype, give instructions on how to go next
-            Text(
-                stringResource(R.string.prototype_post_purchase_delivery_qr_instructions),
-                style = MaterialTheme.typography.bodySmall,
-            )
+            if (cameraPermissionState.status == PermissionStatus.Granted) {
+                Text(
+                    stringResource(R.string.prototype_post_purchase_delivery_qr_instructions),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.app_large_spacing))
+                )
+            }
 
             ButtonsRow(
                 Modifier.padding(dimensionResource(R.dimen.button_spacing)),
