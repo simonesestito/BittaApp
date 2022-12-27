@@ -40,7 +40,7 @@ fun ProductsSearch(
     val subtitle = stringResource(R.string.dispenser_argument_route_subtitle, dispenserId)
     val coroutineScope = rememberCoroutineScope()
 
-    DisposableEffect(LocalLifecycleOwner.current) {
+    DisposableEffect(LocalLifecycleOwner.current, productsViewModel) {
         productsViewModel.onPurchaseCompleted = { error ->
             if (error == null) {
                 onProductPurchased()
@@ -56,6 +56,11 @@ fun ProductsSearch(
         }
     }
 
+    LaunchedEffect(productsViewModel) {
+        // Set new dispenser ID
+        productsViewModel.search(dispenserId, "")
+    }
+
     ProductsBottomSheetWrapper { onShowReport ->
         AppSkeleton(title, subtitle, onBack) { padding, snackbarHost ->
             val loading by productsViewModel.loading.observeAsState(true)
@@ -67,11 +72,6 @@ fun ProductsSearch(
                     val snackbarText = snackbarChannel.receive()
                     snackbarHost.showSnackbar(snackbarText)
                 }
-            }
-
-            SideEffect {
-                // Set new dispenser ID
-                productsViewModel.search(dispenserId, "")
             }
 
             if (loading) {
