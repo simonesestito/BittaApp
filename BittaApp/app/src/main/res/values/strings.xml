@@ -75,4 +75,5 @@
     <string name="delivery_success_message_title">Hai ritirato</string>
     <string name="delivery_success_message_description">Grazie per averci scelto</string>
     <string name="purchase_and_delivery_done_button">Fine</string>
+    <string name="prototype_post_purchase_delivery_qr_instructions">Prototipo: premi sul riquadro fotocamera per simulare la scansione del QR</string>
 </resources>

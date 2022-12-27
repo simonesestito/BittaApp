@@ -1,5 +1,6 @@
 package com.bitta.app.ui.routes
 
+import android.Manifest
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
@@ -7,10 +8,7 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -22,6 +20,9 @@ import com.bitta.app.R
 import com.bitta.app.ui.composables.*
 import com.bitta.app.utils.getPreferences
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
@@ -74,6 +75,7 @@ fun PostPurchaseDelivery(
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 private fun PostPurchaseDeliveryContent(
     dispenserId: Int,
@@ -97,11 +99,21 @@ private fun PostPurchaseDeliveryContent(
                 icon = Icons.App.QrCodeScanner,
             )
 
+            val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
             CameraPreview(
                 Modifier
                     .padding(horizontal = dimensionResource(R.dimen.app_large_spacing))
                     .aspectRatio(1f)
-                    .clickable(onClick = onProductDelivered /* Fake QR scan, for prototype demo */)
+                    .clickable(
+                        enabled = cameraPermissionState.status == PermissionStatus.Granted,
+                        onClick = onProductDelivered, /* Fake QR scan, for prototype demo */
+                    )
+            )
+
+            // Since it's a prototype, give instructions on how to go next
+            Text(
+                stringResource(R.string.prototype_post_purchase_delivery_qr_instructions),
+                style = MaterialTheme.typography.bodySmall,
             )
 
             ButtonsRow(
