@@ -1,12 +1,17 @@
 package com.bitta.app.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
+import com.bitta.app.R
 import com.bitta.app.datasource.DataSource
 import com.bitta.app.datasource.productsForDispenser
 import com.bitta.app.datasource.simpleProducts
 import com.bitta.app.model.Product
 import com.bitta.app.model.ReportedProduct
+import com.bitta.app.payment.GooglePayLauncher
+import com.bitta.app.payment.Payment
+import com.bitta.app.payment.PaymentResult
 import com.bitta.app.utils.DELAY_FAKE_LOADING_TIME
 import com.bitta.app.utils.getPreferences
 import kotlinx.coroutines.delay
@@ -55,14 +60,47 @@ class ProductsViewModel : ViewModel() {
 
     fun getProductById(id: Int) = DataSource.simpleProducts.find { it.id == id }!!
 
-    fun buyProduct(product: Product, context: Context) {
+    fun buyProduct(product: Product, context: Context, resolveLauncher: GooglePayLauncher) {
         this.onPurchaseCompleted ?: return
-        val dispenserId = this.dispenserId ?: return
-        // TODO: Show Google Pay
 
-        // On success, save purchase as not completed
-        context.getPreferences().ongoingPurchaseDispenserId = dispenserId
+        // Show Google Pay if available
+        viewModelScope.launch {
+            val payment = Payment.fromContext(context)
+            if (!payment.isGooglePayAvailable()) {
+                return@launch onPurchaseCompleted?.invoke(
+                    context.getString(R.string.google_pay_not_available_error)
+                ) ?: Unit
+            }
 
-        this.onPurchaseCompleted?.invoke(null)
+            try {
+                val boughtSuccessfully = payment.pay(product.price, resolveLauncher)
+                if (boughtSuccessfully) onPurchaseCompleted(context, PaymentResult.Success)
+                // else, wait for launched activity to return
+            } catch (exception: java.lang.Exception) {
+                // Unexpected error
+                Log.e("Google Pay Error", "Unexpected payment error", exception)
+                onPurchaseCompleted(context, PaymentResult.Error)
+            }
+        }
+    }
+
+    fun onPurchaseCompleted(context: Context, paymentResult: PaymentResult) {
+        when (paymentResult) {
+            PaymentResult.Success -> {
+                // On success, save purchase as not completed
+                context.getPreferences().ongoingPurchaseDispenserId = dispenserId!!
+                onPurchaseCompleted?.invoke(null)
+            }
+            PaymentResult.Canceled -> {
+                onPurchaseCompleted?.invoke(
+                    context.getString(R.string.google_pay_payment_canceled)
+                )
+            }
+            PaymentResult.Error -> {
+                onPurchaseCompleted?.invoke(
+                    context.getString(R.string.google_pay_unexpected_error)
+                )
+            }
+        }
     }
 }

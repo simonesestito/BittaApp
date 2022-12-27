@@ -68,4 +68,7 @@
     <string name="post_purchase_banner_title">Acquisto confermato</string>
     <string name="post_purchase_banner_description">Appena è il tuo turno al distributore, scansiona il codice QR che trovi affisso per ricevere i tuoi prodotti</string>
     <string name="purchase_cancelled_message">Acquisto annullato e rimborsato</string>
+    <string name="google_pay_not_available_error">Google Pay non è disponibile su questo dispositivo</string>
+    <string name="google_pay_unexpected_error">Errore inaspettato nel pagamento</string>
+    <string name="google_pay_payment_canceled">Pagamento annullato dall\'utente</string>
 </resources>

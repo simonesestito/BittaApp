@@ -19,6 +19,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bitta.app.R
 import com.bitta.app.model.Product
 import com.bitta.app.model.ReportedProduct
+import com.bitta.app.payment.GooglePayLauncher
+import com.bitta.app.payment.rememberGooglePayLauncher
 import com.bitta.app.ui.composables.*
 import com.bitta.app.viewmodel.ProductsViewModel
 import kotlinx.coroutines.channels.Channel
@@ -46,9 +48,7 @@ fun ProductsSearch(
                 onProductPurchased()
             } else {
                 // Show error snackbar
-                coroutineScope.launch {
-                    snackbarChannel.send(error)
-                }
+                coroutineScope.launch { snackbarChannel.send(error) }
             }
         }
         onDispose {
@@ -61,7 +61,10 @@ fun ProductsSearch(
         productsViewModel.search(dispenserId, "")
     }
 
-    ProductsBottomSheetWrapper { onShowReport ->
+    // Register Google Pay Handler
+    val googlePayLauncher = rememberGooglePayLauncher()
+
+    ProductsBottomSheetWrapper(googlePayLauncher) { onShowReport ->
         AppSkeleton(title, subtitle, onBack) { padding, snackbarHost ->
             val loading by productsViewModel.loading.observeAsState(true)
             val products by productsViewModel.products.observeAsState(listOf())
@@ -84,6 +87,7 @@ fun ProductsSearch(
                     onProductInfo = onProductInfo,
                     dispenserId = dispenserId,
                     onShowReport = onShowReport,
+                    googlePayLauncher = googlePayLauncher,
                 )
             }
         }
@@ -98,6 +102,7 @@ private fun ProductsColumn(
     onProductInfo: (Product) -> Unit,
     onShowReport: OnShowBottomSheetProduct,
     productsViewModel: ProductsViewModel = viewModel(),
+    googlePayLauncher: GooglePayLauncher,
     dispenserId: Int,
 ) {
     LazyColumn(
@@ -149,7 +154,13 @@ private fun ProductsColumn(
             val context = LocalContext.current
             ProductCard(
                 it,
-                onProductPurchase = { product -> productsViewModel.buyProduct(product, context) },
+                onProductPurchase = { product ->
+                    productsViewModel.buyProduct(
+                        product,
+                        context,
+                        googlePayLauncher,
+                    )
+                },
                 onProductInfo = onProductInfo,
                 onShowReportWarning = onShowReport,
             )
@@ -172,6 +183,7 @@ private fun ProductsColumn(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ProductsBottomSheetWrapper(
+    googlePayLauncher: GooglePayLauncher,
     productsViewModel: ProductsViewModel = viewModel(),
     content: @Composable (OnShowBottomSheetProduct) -> Unit,
 ) {
@@ -185,16 +197,16 @@ private fun ProductsBottomSheetWrapper(
             product?.lastReport?.dateString.orEmpty(),
             product?.product?.name.orEmpty(),
         ),
-        buttons = { onClose ->
-            if (product == null) onClose()
+        buttons = { close ->
+            if (product == null) close()
 
-            OutlinedButton(onClick = onClose) {
+            OutlinedButton(onClick = close) {
                 AppButtonContent(AppIcons.Close, R.string.product_purchase_cancel_button)
             }
             Spacer(Modifier.width(dimensionResource(R.dimen.button_spacing)))
             Button(onClick = {
-                onClose()
-                productsViewModel.buyProduct(product?.product!!, context)
+                close()
+                productsViewModel.buyProduct(product?.product!!, context, googlePayLauncher)
             }) {
                 AppButtonContent(AppIcons.Payments, R.string.product_do_purchase_with_report_button)
             }

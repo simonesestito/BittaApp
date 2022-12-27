@@ -53,7 +53,7 @@ android {
 }
 
 dependencies {
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
+    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.28.0'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_ktx_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_ktx_version"
@@ -73,4 +73,5 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:${camerax_version}"
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "com.google.accompanist:accompanist-permissions:0.28.0"
+    implementation 'com.google.android.gms:play-services-wallet:19.1.0'
 }
