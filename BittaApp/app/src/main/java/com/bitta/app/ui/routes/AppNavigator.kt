@@ -6,6 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,14 +29,15 @@ private const val DISPENSERS = "dispensers"
 private const val PRODUCT_INFO = "productInfo"
 private const val PRODUCT_INFO_ID_ARG = "productId"
 private const val REPORTS = "reports"
-private const val REPORTS_DISPENSER_ID_ARG = "dispenserId"
 private const val NEW_REPORT = "newReport"
 private const val NEW_REPORT_PRODUCT_DETAILS = "newReportDetails/product"
 private const val NEW_REPORT_OTHER_DETAILS = "newReportDetails/other"
 private const val NEW_REPORT_CHANGE_DETAILS = "newReportDetails/change"
 private const val NEW_REPORT_DAMAGED_DETAILS = "newReportDetails/damaged"
 private const val POST_PURCHASE_DELIVERY = "postPurchaseDelivery"
+private const val DELIVERY_SUCCESS = "deliverySuccess"
 
+fun NavHostController.backHome() = popBackStack(DISPENSERS, inclusive = false)
 fun NavHostController.toProducts(dispenserId: Int) = navigate("$PRODUCTS/$dispenserId")
 fun NavHostController.toProductInfo(productId: Int) = navigate("$PRODUCT_INFO/$productId")
 fun NavHostController.toReports(dispenserId: Int) = navigate("$REPORTS/$dispenserId")
@@ -52,6 +54,9 @@ fun NavHostController.toNewReportDetails(dispenserId: Int, kind: UserReportKind)
 
 fun NavHostController.toPostPurchaseDelivery(dispenserId: Int) =
     navigate("$POST_PURCHASE_DELIVERY/$dispenserId")
+
+fun NavHostController.toDeliverySuccess(dispenserId: Int) =
+    navigate("$DELIVERY_SUCCESS/$dispenserId")
 
 @Composable
 fun AppNavigator(
@@ -75,7 +80,7 @@ fun AppNavigator(
 
     NavHost(navController, startDestination, modifier = modifier) {
         composable(DISPENSERS) {
-            Home(
+            DispensersList(
                 onDispenserSelected = navController::toProducts,
                 onNewReport = navController::toNewReport,
                 onShowReports = navController::toReports,
@@ -83,13 +88,7 @@ fun AppNavigator(
             )
         }
 
-        composable(
-            "$PRODUCTS/{$PRODUCTS_DISPENSER_ID_ARG}",
-            arguments = listOf(navArgument(PRODUCTS_DISPENSER_ID_ARG) {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
-            val dispenserId = backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!
+        composableWithDispenserId(PRODUCTS) { dispenserId ->
             ProductsSearch(
                 dispenserId,
                 snackbarChannel = productsListSnackbarChannel,
@@ -111,13 +110,7 @@ fun AppNavigator(
             )
         }
 
-        composable(
-            "$REPORTS/{$REPORTS_DISPENSER_ID_ARG}",
-            arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
-            val dispenserId = backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!
+        composableWithDispenserId(REPORTS) { dispenserId ->
             ReportsList(
                 dispenserId,
                 onBack = navController::popBackStack,
@@ -125,13 +118,7 @@ fun AppNavigator(
             )
         }
 
-        composable(
-            "$NEW_REPORT/{$REPORTS_DISPENSER_ID_ARG}",
-            arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
-            val dispenserId = backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!
+        composableWithDispenserId(NEW_REPORT) { dispenserId ->
             NewReport(
                 dispenserId,
                 onBack = navController::popBackStack,
@@ -165,73 +152,70 @@ fun AppNavigator(
             }
         }
 
-        composable(
-            "$NEW_REPORT_PRODUCT_DETAILS/{$REPORTS_DISPENSER_ID_ARG}",
-            arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
+        composableWithDispenserId(NEW_REPORT_PRODUCT_DETAILS) { dispenserId ->
             UserProductReport(
-                backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
+                dispenserId,
                 onBack = navController::popBackStack,
                 onReportSent = onReportSent,
             )
         }
 
-        composable(
-            "$NEW_REPORT_DAMAGED_DETAILS/{$REPORTS_DISPENSER_ID_ARG}",
-            arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
+        composableWithDispenserId(NEW_REPORT_DAMAGED_DETAILS) { dispenserId ->
             UserDamageReport(
-                backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
+                dispenserId,
                 onBack = navController::popBackStack,
                 onReportSent = onReportSent,
             )
         }
 
-        composable(
-            "$NEW_REPORT_CHANGE_DETAILS/{$REPORTS_DISPENSER_ID_ARG}",
-            arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
+        composableWithDispenserId(NEW_REPORT_CHANGE_DETAILS) { dispenserId ->
             UserChangeReport(
-                backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
+                dispenserId,
                 onBack = navController::popBackStack,
                 onReportSent = onReportSent,
             )
         }
 
-        composable(
-            "$NEW_REPORT_OTHER_DETAILS/{$REPORTS_DISPENSER_ID_ARG}",
-            arguments = listOf(navArgument(REPORTS_DISPENSER_ID_ARG) {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
+        composableWithDispenserId(NEW_REPORT_OTHER_DETAILS) { dispenserId ->
             UserOtherReport(
-                backStackEntry.arguments?.getInt(REPORTS_DISPENSER_ID_ARG)!!,
+                dispenserId,
                 onBack = navController::popBackStack,
                 onReportSent = onReportSent,
             )
         }
 
-        composable(
-            "$POST_PURCHASE_DELIVERY/{$PRODUCTS_DISPENSER_ID_ARG}",
-            arguments = listOf(navArgument(PRODUCTS_DISPENSER_ID_ARG) {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
+        composableWithDispenserId(POST_PURCHASE_DELIVERY) { dispenserId ->
             val purchaseCancelledString = stringResource(R.string.purchase_cancelled_message)
             PostPurchaseDelivery(
-                backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!,
+                dispenserId,
                 onPurchaseCancelled = {
                     navController.popBackStack()
                     coroutineScope.launch { productsListSnackbarChannel.send(purchaseCancelledString) }
                 },
-                onProductDelivered = { /*TODO*/ },
+                onProductDelivered = { navController.toDeliverySuccess(dispenserId) },
             )
         }
+
+        composableWithDispenserId(DELIVERY_SUCCESS) { dispenserId ->
+            DeliverySuccess(
+                dispenserId,
+                onDone = navController::backHome,
+                onReport = navController::toNewReport,
+            )
+        }
+    }
+}
+
+private fun NavGraphBuilder.composableWithDispenserId(
+    routePrefix: String,
+    content: @Composable (dispenserId: Int) -> Unit,
+) {
+    composable(
+        "$routePrefix/{$PRODUCTS_DISPENSER_ID_ARG}",
+        arguments = listOf(navArgument(PRODUCTS_DISPENSER_ID_ARG) {
+            type = NavType.IntType
+        })
+    ) { backStackEntry ->
+        content(backStackEntry.arguments?.getInt(PRODUCTS_DISPENSER_ID_ARG)!!)
     }
 }

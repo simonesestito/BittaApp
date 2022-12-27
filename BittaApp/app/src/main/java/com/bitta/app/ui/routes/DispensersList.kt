@@ -19,7 +19,7 @@ import com.bitta.app.viewmodel.DispenserViewModel
 import kotlinx.coroutines.channels.Channel
 
 @Composable
-fun Home(
+fun DispensersList(
     dispenserViewModel: DispenserViewModel = viewModel(),
     onDispenserSelected: (Int) -> Unit,
     onNewReport: (Int) -> Unit,

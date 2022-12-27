@@ -15,12 +15,13 @@ import com.bitta.app.utils.mix
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SuccessFilledCard(
+    modifier: Modifier = Modifier,
     title: String,
     description: String,
     icon: ImageVector = AppIcons.Check,
 ) {
     ElevatedCard(
-        Modifier
+        modifier
             .fillMaxWidth()
             .padding(dimensionResource(R.dimen.app_large_spacing))
     ) {

@@ -71,4 +71,8 @@
     <string name="google_pay_not_available_error">Google Pay non è disponibile su questo dispositivo</string>
     <string name="google_pay_unexpected_error">Errore inaspettato nel pagamento</string>
     <string name="google_pay_payment_canceled">Pagamento annullato dall\'utente</string>
+    <string name="post_delivery_route_title">Ritiro completato</string>
+    <string name="delivery_success_message_title">Hai ritirato</string>
+    <string name="delivery_success_message_description">Grazie per averci scelto</string>
+    <string name="purchase_and_delivery_done_button">Fine</string>
 </resources>
