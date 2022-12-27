@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.bitta.app.R
 import com.bitta.app.ui.composables.*
+import com.bitta.app.utils.getPreferences
 
 @Composable
 fun DeliverySuccess(
@@ -18,6 +21,12 @@ fun DeliverySuccess(
     onReport: (dispenserId: Int) -> Unit,
 ) {
     BackHandler(onBack = onDone)
+
+    val prefs = LocalContext.current.getPreferences()
+    LaunchedEffect(dispenserId) {
+        // Purchase is completed and no longer ongoing
+        prefs.ongoingPurchaseDispenserId = null
+    }
 
     AppSkeleton(
         title = stringResource(R.string.post_delivery_route_title),
