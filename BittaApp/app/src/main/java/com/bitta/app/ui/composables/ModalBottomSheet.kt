@@ -29,7 +29,7 @@ fun ModalBottomSheet(
     ModalBottomSheetLayout(
         sheetState = state,
         sheetShape = RoundedCornerShape(dimensionResource(R.dimen.bottom_sheet_corner_radius)),
-        sheetBackgroundColor = MaterialTheme.colorScheme.surface,
+        sheetBackgroundColor = MaterialTheme.colorScheme.surfaceVariant,
         sheetContent = {
             Column(
                 modifier = Modifier.padding(dimensionResource(R.dimen.app_large_spacing)),
