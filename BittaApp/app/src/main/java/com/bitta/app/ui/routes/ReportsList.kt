@@ -74,9 +74,8 @@ fun ReportsList(
             }
         } else {
             LazyColumn(
-                Modifier
-                    .fillMaxSize()
-                    .padding(padding)
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = padding,
             ) {
                 items(brokenReports) {
                     ReportCard(report = it)

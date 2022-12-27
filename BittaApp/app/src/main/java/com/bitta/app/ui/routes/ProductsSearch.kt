@@ -101,9 +101,8 @@ private fun ProductsColumn(
     dispenserId: Int,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = padding,
     ) {
         item {
             Row(

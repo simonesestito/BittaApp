@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.bitta.app.BuildConfig
@@ -93,10 +94,13 @@ fun BittaAppTheme(
 
     // Set system UI colors
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(
-        color = Color.Transparent,
-        darkIcons = darkTheme.not(),
-    )
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = darkTheme.not(),
+            isNavigationBarContrastEnforced = false,
+        )
+    }
 
     MaterialTheme(
         colorScheme = colors,

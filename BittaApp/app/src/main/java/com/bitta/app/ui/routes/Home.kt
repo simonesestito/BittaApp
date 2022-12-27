@@ -1,7 +1,6 @@
 package com.bitta.app.ui.routes
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -37,9 +36,8 @@ fun Home(
             LoadingIndicator(textId = R.string.dispensers_loading_indicator)
         } else {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = padding,
             ) {
                 items(dispensers) {
                     DispenserCard(

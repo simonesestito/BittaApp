@@ -1,7 +1,6 @@
 package com.bitta.app.ui.composables
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -67,6 +66,8 @@ fun AppSkeleton(
         },
         floatingActionButton = floatingActionButton,
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        content = { content(it, snackbarHostState) },
+        content = {
+            content(it, snackbarHostState)
+        },
     )
 }
