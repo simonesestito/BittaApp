@@ -5,7 +5,7 @@ Built using **Jetpack Compose and Material 3**
 
 This project was built for the `Human Computer Interaction` exam.
 
-[<img src=".github/assets/apk-badge.svg" height="64">](#)
+[<img src=".github/assets/apk-badge.svg" height="64">](.github/assets/bitta-release-signed.apk?raw=true)
 ![Light theme app screenshots](.github/assets/light-theme-screenshots.jpg)
 ![Dark theme app screenshots](.github/assets/dark-theme-screenshots.jpg)
 
