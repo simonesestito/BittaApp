@@ -5,6 +5,14 @@ Built using **Jetpack Compose and Material 3**
 
 This project was built for the `Human Computer Interaction` exam.
 
+## Project Structure
+
+- The final project relation, the most important document!
+- `BittaApp/` folder contains the final app source code as an Android Studio project
+- Other folders have the [Work Material](#work-material), excluding sensitive data like audio and video recordings.
+
+Each folder may contain a .gitignore file listing all omitted files.
+
 [<img src=".github/assets/apk-badge.svg" height="64">](.github/assets/bitta-release-signed.apk?raw=true)
 ![Light theme app screenshots](.github/assets/light-theme-screenshots.jpg)
 ![Dark theme app screenshots](.github/assets/dark-theme-screenshots.jpg)
